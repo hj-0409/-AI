@@ -1497,13 +1497,31 @@ async function fetchCompanyData() {
   if (!res.ok) throw new Error(`companies.json 로드 실패 (HTTP ${res.status})`);
   const json = await res.json();
 
-  COMPANY_DATA      = json;
-  KO_LARGE          = Array.isArray(json.KO_LARGE) ? json.KO_LARGE : [];
-  KO_MID            = Array.isArray(json.KO_MID) ? json.KO_MID : [];
-  KO_PUB            = Array.isArray(json.KO_PUB) ? json.KO_PUB : [];
-  GLOBAL_INDUSTRIES = Array.isArray(json.GLOBAL_INDUSTRIES) ? json.GLOBAL_INDUSTRIES : [];
-  SAMPLES           = json.SAMPLES || {};
-  DETAIL_DATA       = json.DETAIL_DATA || {};
+  COMPANY_DATA = json;
+
+  // JSON이 배열 형태로 들어왔을 때 자동 분류 처리
+  if (Array.isArray(json)) {
+    KO_LARGE = json.filter(c => c.category === '국내 대기업' || !c.category);
+    KO_MID = json.filter(c => c.category === '중견기업');
+    KO_PUB = json.filter(c => c.category === '공기업');
+    
+    const globals = json.filter(c => c.category === '해외 · 글로벌' || c.category === '글로벌');
+    GLOBAL_INDUSTRIES = globals.length ? [{ group: '글로벌 테크', items: globals }] : [];
+    
+    SAMPLES = {};
+    DETAIL_DATA = {};
+    json.forEach(c => {
+      if (c.jobs) SAMPLES[c.name] = c;
+    });
+  } else {
+    // 기존 원본 오브젝트 형태일 때
+    KO_LARGE          = Array.isArray(json.KO_LARGE) ? json.KO_LARGE : [];
+    KO_MID            = Array.isArray(json.KO_MID) ? json.KO_MID : [];
+    KO_PUB            = Array.isArray(json.KO_PUB) ? json.KO_PUB : [];
+    GLOBAL_INDUSTRIES = Array.isArray(json.GLOBAL_INDUSTRIES) ? json.GLOBAL_INDUSTRIES : [];
+    SAMPLES           = json.SAMPLES || {};
+    DETAIL_DATA       = json.DETAIL_DATA || {};
+  }
 
   buildCategoryIndex();
   companyDataReady = true;
