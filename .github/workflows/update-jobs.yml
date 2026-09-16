@@ -1,34 +1,34 @@
-name: Auto Update Job Postings
+name: Update Jobs Data
 
 on:
   schedule:
-    - cron: '0 0 * * 1' # 매주 월요일 자정(UTC 기준)에 실행
-  workflow_dispatch: # GitHub 웹페이지에서 수동으로 실행할 수 있는 버튼 활성화
+    # 매주 월요일 00:00 UTC (한국 시간 오전 9시)
+    - cron: '0 0 * * 1'
+  workflow_dispatch: # Actions 탭에서 수동 실행 버튼 활성화
+
+permissions:
+  contents: write
 
 jobs:
   update-data:
     runs-on: ubuntu-latest
     steps:
       - name: 저장소 체크아웃
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Python 환경 설정
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.10'
 
-      - name: 필요 라이브러리 설치 (웹 크롤링 확장 대비)
-        run: pip install requests beautifulsoup4
-
-      - name: 크롤러 스크립트 실행
+      - name: 데이터 업데이트 스크립트 실행
         run: |
-          cd "해커톤 ai"
           python update_jobs.py
 
-      - name: 변경된 데이터 GitHub에 커밋 및 푸시
+      - name: 변경 사항 Git 커밋 및 푸시
         run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add "해커톤 ai/data/companies.json"
-          # 변경 사항이 있을 때만 커밋
-          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: 채용 공고 데이터 자동 업데이트" && git push)
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/companies.json
+          git commit -m "chore: 채용 일정 및 최신 이슈 자동 갱신 [skip ci]" || echo "No changes to commit"
+          git push
