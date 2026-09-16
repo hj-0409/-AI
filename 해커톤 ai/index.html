@@ -1,0 +1,2996 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JOB INSIGHT · AI 기반 취업정보 탐색 서비스</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --surface: #ffffff;
+    --surface-alt: #f2f4f7;
+    --border: #e5e7eb;
+    --border-strong: #d1d5db;
+    --text: #111827;
+    --text-sub: #4b5563;
+    --text-mute: #9ca3af;
+    --blue: #2563eb;
+    --blue-strong: #1d4ed8;
+    --blue-soft: #eff6ff;
+    --blue-ring: rgba(37,99,235,.18);
+    --green: #10b981;
+    --green-soft: #ecfdf5;
+    --yellow: #f59e0b;
+    --yellow-soft: #fffbeb;
+    --red: #ef4444;
+    --red-soft: #fef2f2;
+    --purple: #8b5cf6;
+    --purple-soft: #f5f3ff;
+    --shadow-sm: 0 1px 2px rgba(16,24,40,.04), 0 1px 3px rgba(16,24,40,.06);
+    --shadow-md: 0 4px 12px rgba(16,24,40,.06), 0 2px 4px rgba(16,24,40,.04);
+    --shadow-lg: 0 20px 40px -12px rgba(16,24,40,.12), 0 8px 16px -8px rgba(16,24,40,.08);
+    --radius: 14px;
+    --radius-sm: 10px;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Pretendard', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  button { font-family: inherit; cursor: pointer; }
+  a { color: var(--blue); text-decoration: none; }
+
+  .nav {
+    position: sticky; top: 0; z-index: 40;
+    background: rgba(255,255,255,.85);
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: 1240px; margin: 0 auto;
+    padding: 12px 20px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 10px;
+    cursor: pointer; user-select: none;
+  }
+  .brand-logo {
+    width: 30px; height: 30px; border-radius: 8px;
+    background: linear-gradient(135deg, #2563eb, #3b82f6 60%, #60a5fa);
+    display: grid; place-items: center; color: white; font-weight: 800;
+    box-shadow: 0 6px 16px -4px rgba(37,99,235,.5);
+    font-size: 14px;
+  }
+  .brand-name { font-weight: 800; letter-spacing: -.01em; }
+  .brand-name span { color: var(--blue); }
+  .nav-spacer { flex: 1; }
+  .nav-crumbs {
+    display: flex; align-items: center; gap: 8px;
+    color: var(--text-mute); font-size: 13px;
+  }
+  .nav-crumbs .crumb { padding: 4px 10px; border-radius: 999px; cursor: pointer; }
+  .nav-crumbs .crumb.active { background: var(--blue-soft); color: var(--blue); font-weight: 600; }
+  .nav-crumbs .sep { opacity: .5; }
+
+  .page { max-width: 1240px; margin: 0 auto; padding: 24px 20px 80px; }
+
+  .screen { display: none; animation: fadeIn .35s ease both; }
+  .screen.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SCREEN 1 */
+  .hero { padding: 40px 20px 24px; text-align: center; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px; border-radius: 999px;
+    background: var(--blue-soft); color: var(--blue);
+    font-size: 12.5px; font-weight: 600;
+    margin-bottom: 20px;
+  }
+  .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); }
+  .hero h1 {
+    font-size: clamp(26px, 4vw, 40px);
+    line-height: 1.15; letter-spacing: -.03em; font-weight: 800;
+    margin: 0 0 12px;
+  }
+  .hero h1 .accent {
+    background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero p.sub {
+    color: var(--text-sub); font-size: 15.5px; margin: 0 auto 28px;
+    max-width: 560px;
+  }
+  .search-wrap {
+    width: 100%; max-width: 640px; margin: 0 auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    display: flex; align-items: center;
+    padding: 6px 6px 6px 22px;
+    box-shadow: var(--shadow-md);
+    transition: all .2s ease;
+  }
+  .search-wrap:focus-within {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 4px var(--blue-ring), var(--shadow-md);
+  }
+  .search-wrap .icon { color: var(--text-mute); flex-shrink: 0; }
+  .search-input {
+    flex: 1; border: 0; outline: 0; background: transparent;
+    padding: 14px 12px; font-size: 15.5px; color: var(--text);
+    font-family: inherit;
+  }
+  .search-btn {
+    background: var(--blue); color: white; border: 0;
+    padding: 12px 22px; border-radius: 999px;
+    font-weight: 600; font-size: 15px;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: transform .1s ease, background .2s ease;
+  }
+  .search-btn:hover { background: var(--blue-strong); }
+  .search-btn:active { transform: scale(.97); }
+
+  .quick-links {
+    max-width: 640px; margin: 16px auto 0;
+    display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+  }
+  .quick-links .lb { font-size: 12.5px; color: var(--text-mute); align-self: center; margin-right: 4px; }
+  .quick-chip {
+    padding: 6px 12px; border-radius: 999px;
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text-sub); font-size: 12.5px; cursor: pointer;
+    transition: all .15s ease;
+  }
+  .quick-chip:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
+  .quick-chip.demo { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); font-weight: 600; }
+
+  .dir-section { margin-top: 40px; }
+  .dir-title {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    padding: 0 4px; margin-bottom: 14px; gap: 12px; flex-wrap: wrap;
+  }
+  .dir-title h2 { margin: 0; font-size: 20px; letter-spacing: -.02em; }
+  .dir-title .desc { color: var(--text-mute); font-size: 13px; }
+
+  .tabs {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    background: var(--surface); padding: 6px;
+    border: 1px solid var(--border); border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 16px;
+  }
+  .tab {
+    padding: 9px 14px; border-radius: 8px;
+    background: transparent; border: 0;
+    font-size: 13.5px; color: var(--text-sub); font-weight: 600;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: all .2s ease;
+  }
+  .tab:hover { background: var(--surface-alt); color: var(--text); }
+  .tab.active { background: var(--blue); color: white; }
+  .tab .count {
+    font-size: 11px; padding: 1px 7px; border-radius: 999px;
+    background: rgba(0,0,0,.08); color: inherit; font-weight: 700;
+  }
+  .tab.active .count { background: rgba(255,255,255,.22); }
+
+  .tab-panel { display: none; animation: fadeIn .3s ease both; }
+  .tab-panel.active { display: block; }
+
+  .group-title {
+    font-size: 12px; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--text-mute); font-weight: 700;
+    margin: 18px 4px 10px;
+  }
+  .company-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
+  }
+  .comp-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px;
+    cursor: pointer; position: relative;
+    display: flex; align-items: center; gap: 10px;
+    transition: all .18s ease;
+    box-shadow: var(--shadow-sm);
+  }
+  .comp-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--blue);
+    box-shadow: var(--shadow-md);
+  }
+  .comp-logo {
+    width: 34px; height: 34px; border-radius: 9px;
+    display: grid; place-items: center;
+    color: white; font-weight: 800; font-size: 13px; letter-spacing: -.02em;
+    flex-shrink: 0;
+  }
+  .comp-meta { min-width: 0; flex: 1; }
+  .comp-meta h5 {
+    margin: 0; font-size: 13.5px; letter-spacing: -.01em;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .comp-meta p {
+    margin: 2px 0 0; font-size: 11.5px; color: var(--text-mute);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+
+  /* SCREEN 2 */
+  .back-list-btn {
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 8px 14px 8px 10px; border-radius: 999px;
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--text-sub); font-size: 13px; font-weight: 600;
+    transition: all .15s ease;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 14px;
+  }
+  .back-list-btn:hover { background: var(--blue-soft); color: var(--blue); border-color: var(--blue); }
+
+  .back-btn {
+    background: var(--surface-alt); border: 1px solid var(--border);
+    width: 36px; height: 36px; border-radius: 10px;
+    display: grid; place-items: center; color: var(--text-sub);
+    flex-shrink: 0;
+    transition: all .15s ease;
+  }
+  .back-btn:hover { background: var(--blue-soft); color: var(--blue); border-color: var(--blue); }
+
+  .company-header {
+    display: flex; align-items: center; gap: 18px;
+    padding: 22px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 24px;
+  }
+  .company-logo-lg {
+    width: 60px; height: 60px; border-radius: 14px;
+    color: white; display: grid; place-items: center;
+    font-weight: 800; font-size: 20px; letter-spacing: -.02em;
+    flex-shrink: 0;
+  }
+  .company-info h2 {
+    margin: 0 0 4px; font-size: 22px; letter-spacing: -.02em;
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+  .cat-pill {
+    font-size: 11.5px; font-weight: 700; padding: 3px 9px; border-radius: 999px;
+    background: var(--surface-alt); color: var(--text-sub);
+    letter-spacing: .02em;
+  }
+  .company-info p { margin: 0; color: var(--text-sub); font-size: 13.5px; }
+
+  .section-title {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin: 8px 4px 14px;
+  }
+  .section-title h3 { margin: 0; font-size: 17px; letter-spacing: -.02em; }
+  .section-title .desc { color: var(--text-mute); font-size: 13px; }
+
+  .job-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+  }
+  .job-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px;
+    cursor: pointer; position: relative; overflow: hidden;
+    transition: all .2s ease;
+    box-shadow: var(--shadow-sm);
+  }
+  .job-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--blue);
+    box-shadow: var(--shadow-lg);
+  }
+  .job-card .cat {
+    font-size: 11.5px; color: var(--text-mute);
+    text-transform: uppercase; letter-spacing: .05em; font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .job-card h4 { margin: 0 0 6px; font-size: 16px; }
+  .job-card p { margin: 0; color: var(--text-sub); font-size: 13px; }
+  .job-card .cta {
+    display: inline-flex; align-items: center; gap: 4px;
+    margin-top: 12px; font-size: 13px; color: var(--blue); font-weight: 600;
+  }
+  .job-card.highlight {
+    border-color: var(--border);
+    background: var(--surface);
+  }
+  .job-card .comp-actions {
+    position: absolute; top: 8px; right: 8px;
+    display: flex; align-items: center; gap: 4px;
+    opacity: 0; transition: opacity .15s ease;
+  }
+  .job-card:hover .comp-actions { opacity: 1; }
+  .job-card .pin-btn {
+    background: var(--surface); border: 1px solid var(--border);
+    width: 26px; height: 26px; border-radius: 999px;
+    display: grid; place-items: center; color: var(--text-mute);
+    padding: 0; font-size: 12px;
+    transition: all .15s ease;
+  }
+  .job-card .pin-btn:hover { background: var(--blue-soft); color: var(--blue); border-color: var(--blue); }
+  .job-card.pinned .pin-btn { background: var(--blue); color: white; border-color: var(--blue); opacity: 1; }
+  .job-card.pinned .comp-actions { opacity: 1; }
+  .job-card.pinned {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 2px var(--blue-ring), var(--shadow-sm);
+  }
+
+  .fallback-banner {
+    background: linear-gradient(90deg, var(--blue-soft), transparent 80%);
+    border: 1px dashed var(--blue);
+    border-radius: 12px; padding: 10px 14px;
+    color: var(--blue); font-size: 12.5px; font-weight: 600;
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* SCREEN 3 */
+  .detail-header {
+    display: flex; align-items: flex-start; gap: 16px;
+    padding: 22px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 20px;
+  }
+  .detail-header .titles { flex: 1; min-width: 0; }
+  .detail-header h2 {
+    margin: 0 0 4px; font-size: 22px; letter-spacing: -.02em;
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  }
+  .job-tag {
+    background: var(--blue-soft); color: var(--blue);
+    font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px;
+  }
+  .dday-tag {
+    background: #fef3c7; color: #92400e;
+    font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .dday-tag.urgent { background: #fee2e2; color: #991b1b; }
+  .dday-tag.ongoing { background: #dcfce7; color: #166534; }
+  .detail-header .src {
+    margin: 6px 0 0; color: var(--text-mute); font-size: 12.5px;
+  }
+  .toggle-wrap {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; border: 1px solid var(--border);
+    border-radius: 999px; background: var(--surface);
+    flex-shrink: 0; cursor: pointer;
+    transition: all .2s ease;
+  }
+  .toggle-wrap.active {
+    background: var(--blue-soft); border-color: var(--blue);
+  }
+  .toggle-wrap .label {
+    font-size: 13px; font-weight: 600; color: var(--text-sub);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .toggle-wrap.active .label { color: var(--blue); }
+  .switch {
+    position: relative; width: 40px; height: 22px;
+    background: var(--border-strong); border-radius: 999px;
+    transition: background .2s ease;
+  }
+  .switch::after {
+    content: ""; position: absolute; top: 2px; left: 2px;
+    width: 18px; height: 18px; background: white;
+    border-radius: 50%;
+    transition: transform .25s cubic-bezier(.4,0,.2,1);
+    box-shadow: 0 2px 4px rgba(0,0,0,.15);
+  }
+  .toggle-wrap.active .switch { background: var(--blue); }
+  .toggle-wrap.active .switch::after { transform: translateX(18px); }
+
+  .dashboard {
+    display: grid; grid-template-columns: 1fr 320px; gap: 20px;
+  }
+  @media (max-width: 960px) {
+    .dashboard { grid-template-columns: 1fr; }
+    .detail-header { flex-wrap: wrap; }
+  }
+
+  .section-block {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px 20px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 14px;
+  }
+  .section-block > .block-head {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 12px;
+  }
+  .block-head .block-icon {
+    width: 34px; height: 34px; border-radius: 9px;
+    display: grid; place-items: center;
+    background: var(--blue-soft); color: var(--blue);
+    flex-shrink: 0;
+  }
+  .block-head h3 { margin: 0; font-size: 15.5px; letter-spacing: -.01em; }
+  .block-head .block-sub {
+    color: var(--text-mute); font-size: 12px; margin-left: auto;
+  }
+
+  .req-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 14px 16px;
+    margin-bottom: 10px;
+    transition: all .3s ease;
+    border-left: 4px solid var(--border);
+  }
+  .req-card:last-child { margin-bottom: 0; }
+  .req-card.compared.status-green { border-left-color: var(--green); background: linear-gradient(90deg, var(--green-soft), var(--surface) 60%); }
+  .req-card.compared.status-yellow { border-left-color: var(--yellow); background: linear-gradient(90deg, var(--yellow-soft), var(--surface) 60%); }
+  .req-card.compared.status-red { border-left-color: var(--red); background: linear-gradient(90deg, var(--red-soft), var(--surface) 60%); }
+
+  .req-head {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .req-title { font-weight: 700; font-size: 14.5px; letter-spacing: -.01em; }
+  .req-tag {
+    font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 6px;
+    letter-spacing: .02em;
+  }
+  .tag-req { background: #fee2e2; color: #b91c1c; }
+  .tag-pref { background: #dbeafe; color: #1d4ed8; }
+  .tag-bonus { background: #dcfce7; color: #166534; }
+  .tag-ref { background: #f3f4f6; color: #4b5563; }
+  .tag-ai { background: var(--purple-soft); color: var(--purple); }
+
+  .req-body { color: var(--text-sub); font-size: 13.5px; }
+  .req-body .name { color: var(--text); font-weight: 600; margin-right: 6px; }
+
+  .compare-status {
+    margin-top: 10px; padding: 10px 12px; border-radius: 10px;
+    display: none; align-items: flex-start; gap: 10px;
+    font-size: 13px;
+  }
+  .req-card.compared .compare-status { display: flex; }
+  .compare-status .status-emoji { font-size: 16px; line-height: 1.2; flex-shrink: 0; }
+  .status-green .compare-status { background: rgba(16,185,129,.09); color: #065f46; }
+  .status-yellow .compare-status { background: rgba(245,158,11,.11); color: #92400e; }
+  .status-red .compare-status { background: rgba(239,68,68,.09); color: #991b1b; }
+  .compare-status b { font-weight: 700; }
+
+  .kv-table { display: grid; grid-template-columns: 130px 1fr; gap: 6px 14px; }
+  .kv-table .k {
+    color: var(--text-mute); font-size: 13px; padding: 4px 0;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .kv-table .v { color: var(--text); font-size: 13.8px; padding: 4px 0; }
+  .kv-table .v b { color: var(--blue); font-weight: 600; }
+  @media (max-width: 600px) {
+    .kv-table { grid-template-columns: 1fr; }
+    .kv-table .k { padding: 2px 0 0; }
+    .kv-table .v { padding: 0 0 6px; }
+  }
+
+  .timeline { position: relative; padding-left: 22px; }
+  .timeline::before {
+    content: ""; position: absolute;
+    left: 6px; top: 6px; bottom: 6px; width: 2px;
+    background: linear-gradient(180deg, var(--blue), var(--border));
+  }
+  .tl-item { position: relative; padding: 6px 0 14px; }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-item::before {
+    content: ""; position: absolute; left: -20px; top: 10px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: white; border: 2px solid var(--blue);
+    box-shadow: 0 0 0 3px white;
+  }
+  .tl-item.done::before { background: var(--blue); }
+  .tl-item.next::before { background: var(--yellow); border-color: var(--yellow); }
+  .tl-item.upcoming::before { background: white; border-color: var(--border-strong); }
+  .tl-title { font-weight: 700; font-size: 13.5px; margin-bottom: 2px; }
+  .tl-desc { font-size: 12.5px; color: var(--text-sub); }
+  .tl-item.next .tl-title::after {
+    content: "다음 단계"; margin-left: 8px;
+    font-size: 10.5px; font-weight: 700;
+    padding: 2px 6px; border-radius: 6px;
+    background: #fef3c7; color: #92400e;
+  }
+
+  .chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .chip {
+    font-size: 12px; padding: 4px 10px; border-radius: 999px;
+    background: var(--surface-alt); color: var(--text-sub);
+    border: 1px solid var(--border);
+  }
+  .chip.blue { background: var(--blue-soft); color: var(--blue); border-color: transparent; }
+  .chip.purple { background: var(--purple-soft); color: var(--purple); border-color: transparent; }
+
+  .side { display: flex; flex-direction: column; gap: 14px; }
+  .side-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px;
+    box-shadow: var(--shadow-sm);
+  }
+  .side-card h4 {
+    margin: 0 0 12px; font-size: 14px; letter-spacing: -.01em;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .profile-row {
+    display: flex; justify-content: space-between; padding: 8px 0;
+    font-size: 13.5px; border-bottom: 1px dashed var(--border);
+    gap: 10px;
+  }
+  .profile-row:last-child { border-bottom: 0; }
+  .profile-row .k { color: var(--text-mute); flex-shrink: 0; }
+  .profile-row .v { color: var(--text); font-weight: 600; text-align: right; }
+
+  .summary-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 0; font-size: 13.5px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .summary-row:last-child { border-bottom: 0; }
+  .summary-count { font-weight: 700; }
+  .sm-green { color: var(--green); }
+  .sm-yellow { color: var(--yellow); }
+  .sm-red { color: var(--red); }
+
+  .disclaimer {
+    background: #fffbeb; border: 1px solid #fde68a;
+    color: #92400e; font-size: 12.5px; padding: 10px 12px;
+    border-radius: 10px; line-height: 1.55;
+    display: flex; gap: 8px; align-items: flex-start;
+  }
+
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-bottom: 14px;
+  }
+  .legend-item {
+    font-size: 11.5px; padding: 4px 10px; border-radius: 999px;
+    font-weight: 600; letter-spacing: .02em;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+
+  .fade-swap { animation: fadeIn .3s ease both; }
+
+  /* ---------- Profile Edit Button ---------- */
+  .nav-btn {
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 7px 12px 7px 10px; border-radius: 999px;
+    font-size: 12.5px; font-weight: 600; color: var(--text-sub);
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: all .15s ease;
+  }
+  .nav-btn:hover { background: var(--blue-soft); color: var(--blue); border-color: var(--blue); }
+  .nav-btn svg { width: 14px; height: 14px; }
+
+  .sidecard-edit {
+    background: transparent; border: 0; color: var(--blue);
+    font-size: 12px; font-weight: 600; padding: 4px 8px;
+    border-radius: 6px; margin-left: auto;
+    display: inline-flex; align-items: center; gap: 4px;
+    transition: background .15s ease;
+  }
+  .sidecard-edit:hover { background: var(--blue-soft); }
+
+  /* ---------- Modal ---------- */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(17,24,39,.55);
+    display: none; align-items: center; justify-content: center;
+    padding: 20px;
+    animation: fadeIn .2s ease both;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: var(--surface);
+    border-radius: 18px;
+    width: 100%; max-width: 620px;
+    max-height: calc(100vh - 40px);
+    display: flex; flex-direction: column;
+    box-shadow: 0 30px 60px -20px rgba(16,24,40,.35);
+    animation: modalIn .28s cubic-bezier(.4,0,.2,1) both;
+    overflow: hidden;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(20px) scale(.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .modal-head {
+    padding: 20px 24px 16px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px;
+    flex-shrink: 0;
+  }
+  .modal-head .icon-wrap {
+    width: 40px; height: 40px; border-radius: 11px;
+    background: var(--blue-soft); color: var(--blue);
+    display: grid; place-items: center; flex-shrink: 0;
+  }
+  .modal-head h3 { margin: 0; font-size: 17px; letter-spacing: -.02em; }
+  .modal-head p  { margin: 2px 0 0; font-size: 12.5px; color: var(--text-mute); }
+  .modal-head .close {
+    margin-left: auto;
+    width: 32px; height: 32px; border-radius: 8px;
+    background: transparent; border: 0; color: var(--text-mute);
+    display: grid; place-items: center;
+    transition: background .15s ease;
+  }
+  .modal-head .close:hover { background: var(--surface-alt); color: var(--text); }
+  .modal-body { padding: 20px 24px; overflow-y: auto; flex: 1; }
+  .modal-foot {
+    padding: 14px 24px; border-top: 1px solid var(--border);
+    display: flex; gap: 8px; justify-content: flex-end;
+    flex-shrink: 0;
+    background: var(--surface-alt);
+  }
+  .btn {
+    padding: 10px 18px; border-radius: 10px;
+    font-size: 14px; font-weight: 600;
+    border: 1px solid var(--border); background: var(--surface);
+    color: var(--text-sub);
+    transition: all .15s ease;
+  }
+  .btn:hover { background: var(--surface-alt); color: var(--text); }
+  .btn-primary {
+    background: var(--blue); color: white; border-color: var(--blue);
+  }
+  .btn-primary:hover { background: var(--blue-strong); color: white; }
+  .btn-ghost {
+    background: transparent; border: 1px dashed var(--border-strong);
+    color: var(--text-sub);
+  }
+  .btn-ghost:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
+
+  /* HTML 리포트 다운로드 버튼 */
+  .btn-download {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 9px 15px; border-radius: 10px;
+    font-size: 13.5px; font-weight: 700;
+    border: 1px solid var(--green); background: var(--green-soft);
+    color: #047857; white-space: nowrap;
+    transition: all .15s ease; cursor: pointer;
+  }
+  .btn-download:hover { background: var(--green); color: #fff; }
+  .btn-download svg { width: 15px; height: 15px; flex-shrink: 0; }
+  .detail-actions {
+    display: flex; align-items: center; gap: 10px;
+    flex-wrap: wrap; margin: 0 0 16px;
+  }
+  .detail-actions .hint { font-size: 12.5px; color: var(--text-mute); }
+  @media (max-width: 640px) {
+    .btn-download { width: 100%; justify-content: center; }
+    .detail-actions .hint { display: none; }
+  }
+
+  /* Form fields */
+  .form-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px;
+  }
+  .form-grid .full { grid-column: 1 / -1; }
+  @media (max-width: 560px) {
+    .form-grid { grid-template-columns: 1fr; }
+  }
+  .field label {
+    display: block; font-size: 12.5px; font-weight: 600;
+    color: var(--text-sub); margin-bottom: 6px;
+    letter-spacing: -.01em;
+  }
+  .field label .lb-desc { color: var(--text-mute); font-weight: 500; margin-left: 6px; font-size: 11.5px; }
+  .field input, .field select, .field textarea {
+    width: 100%; box-sizing: border-box;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 10px 12px;
+    font-size: 14px; color: var(--text);
+    font-family: inherit;
+    transition: all .15s ease;
+    outline: 0;
+  }
+  .field textarea { resize: vertical; min-height: 60px; }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px var(--blue-ring);
+  }
+  .field .split {
+    display: grid; grid-template-columns: 1fr auto 1fr; gap: 6px; align-items: center;
+  }
+  .field .split .sep { color: var(--text-mute); font-size: 13px; text-align: center; }
+
+  .section-label {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 700; color: var(--text);
+    margin: 18px 0 10px;
+    padding-bottom: 8px; border-bottom: 1px solid var(--border);
+  }
+  .section-label .num {
+    width: 20px; height: 20px; border-radius: 6px;
+    background: var(--blue-soft); color: var(--blue);
+    display: grid; place-items: center;
+    font-size: 11px; font-weight: 800;
+  }
+
+  /* Chip editor (courses / certificates) */
+  .chip-editor {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    padding: 8px; border: 1px solid var(--border); border-radius: 10px;
+    background: var(--surface);
+    min-height: 42px;
+    transition: all .15s ease;
+  }
+  .chip-editor:focus-within { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-ring); }
+  .chip-editor .chip-item {
+    background: var(--blue-soft); color: var(--blue);
+    padding: 4px 4px 4px 10px; border-radius: 999px;
+    font-size: 12.5px; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .chip-editor .chip-item button {
+    background: transparent; border: 0; color: var(--blue);
+    width: 20px; height: 20px; border-radius: 50%;
+    display: grid; place-items: center; padding: 0;
+    font-size: 14px; line-height: 1;
+    opacity: .7;
+  }
+  .chip-editor .chip-item button:hover { opacity: 1; background: rgba(37,99,235,.15); }
+  .chip-editor input {
+    flex: 1; min-width: 120px;
+    border: 0; outline: 0; background: transparent;
+    padding: 4px 8px; font-size: 13px; color: var(--text);
+    font-family: inherit;
+  }
+
+  .lang-row {
+    display: grid; grid-template-columns: 1fr 100px;
+    gap: 8px; align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  .lang-row:last-child { border-bottom: 0; }
+  .lang-row .name { font-size: 13px; color: var(--text); font-weight: 600; }
+  .lang-row .name small { display: block; color: var(--text-mute); font-weight: 500; font-size: 11.5px; }
+  .lang-row input {
+    padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px;
+    font-size: 13px; text-align: right; width: 100%; box-sizing: border-box;
+    font-family: inherit; outline: 0;
+    transition: all .15s ease;
+  }
+  .lang-row input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-ring); }
+
+  .hint-text { font-size: 12px; color: var(--text-mute); margin-top: -6px; }
+  .save-toast-inline {
+    background: var(--green-soft); color: #065f46;
+    border: 1px solid #a7f3d0; border-radius: 10px;
+    padding: 8px 12px; font-size: 12.5px; font-weight: 600;
+    display: none; align-items: center; gap: 6px;
+    margin-right: auto;
+  }
+  .save-toast-inline.show { display: inline-flex; }
+
+  /* ---------- Overview / Gauge cards ---------- */
+  .overview-grid {
+    display: grid; grid-template-columns: 1.1fr 1.4fr;
+    gap: 14px; margin-bottom: 18px;
+  }
+  @media (max-width: 900px) { .overview-grid { grid-template-columns: 1fr; } }
+
+  .gauge-card, .match-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px 20px;
+    box-shadow: var(--shadow-sm);
+  }
+  .gauge-head {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+  }
+  .gauge-head .icon-b {
+    width: 32px; height: 32px; border-radius: 9px;
+    background: var(--purple-soft); color: var(--purple);
+    display: grid; place-items: center; flex-shrink: 0;
+  }
+  .gauge-head h4 {
+    margin: 0; font-size: 14.5px; letter-spacing: -.01em;
+  }
+  .gauge-head .btn-mini {
+    margin-left: auto;
+    padding: 5px 10px; font-size: 11.5px; font-weight: 600;
+    border-radius: 999px; background: var(--surface-alt);
+    border: 1px solid var(--border); color: var(--text-sub);
+  }
+  .gauge-head .btn-mini:hover { background: var(--blue-soft); color: var(--blue); border-color: var(--blue); }
+
+  .gauge-body {
+    display: flex; align-items: center; gap: 18px;
+  }
+  .ring {
+    width: 84px; height: 84px; position: relative;
+    flex-shrink: 0;
+  }
+  .ring svg { transform: rotate(-90deg); }
+  .ring .ring-track { stroke: var(--surface-alt); }
+  .ring .ring-value { stroke: var(--blue); transition: stroke-dashoffset .6s cubic-bezier(.4,0,.2,1), stroke .3s ease; }
+  .ring .ring-num {
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    font-weight: 800; font-size: 20px; letter-spacing: -.03em;
+    color: var(--text);
+  }
+  .ring .ring-num small { font-size: 11px; font-weight: 600; color: var(--text-mute); }
+  .ring.green .ring-value { stroke: var(--green); }
+  .ring.yellow .ring-value { stroke: var(--yellow); }
+  .ring.red .ring-value { stroke: var(--red); }
+  .ring.purple .ring-value { stroke: var(--purple); }
+
+  .gauge-info { flex: 1; min-width: 0; }
+  .gauge-info .title { font-size: 13.5px; font-weight: 700; margin-bottom: 4px; letter-spacing: -.01em; }
+  .gauge-info .desc { font-size: 12.5px; color: var(--text-sub); margin: 0; line-height: 1.5; }
+  .completeness-list {
+    margin-top: 10px;
+    display: flex; flex-wrap: wrap; gap: 5px;
+  }
+  .completeness-list .cchip {
+    font-size: 11px; padding: 3px 9px; border-radius: 999px;
+    background: var(--surface-alt); color: var(--text-mute);
+    font-weight: 600;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .completeness-list .cchip.ok { background: var(--green-soft); color: #065f46; }
+  .completeness-list .cchip.no { background: #fef2f2; color: #991b1b; }
+
+  .match-bars {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 12px; margin-top: 10px;
+  }
+  @media (max-width: 560px) { .match-bars { grid-template-columns: 1fr; } }
+  .mbar { text-align: center; }
+  .mbar .lb { font-size: 11.5px; font-weight: 600; color: var(--text-mute); margin-bottom: 6px; }
+  .mbar .val {
+    display: inline-flex; align-items: baseline; gap: 3px;
+    font-weight: 800; font-size: 22px; letter-spacing: -.02em;
+    color: var(--text);
+  }
+  .mbar .val small { font-size: 12px; color: var(--text-mute); font-weight: 600; }
+  .mbar .val.green { color: var(--green); }
+  .mbar .val.yellow { color: var(--yellow); }
+  .mbar .val.red { color: var(--red); }
+
+  /* ---------- Compare bar (floating) ---------- */
+  .compare-bar {
+    position: fixed; left: 50%; bottom: 20px;
+    transform: translateX(-50%) translateY(30px);
+    background: #111827; color: white;
+    border-radius: 999px; padding: 8px 8px 8px 20px;
+    display: flex; align-items: center; gap: 12px;
+    box-shadow: 0 12px 30px -6px rgba(16,24,40,.4);
+    z-index: 50; opacity: 0; pointer-events: none;
+    transition: opacity .25s ease, transform .25s ease;
+    max-width: 92vw;
+  }
+  .compare-bar.show { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+  .compare-bar .cb-count {
+    background: var(--blue); color: white; font-weight: 800;
+    width: 22px; height: 22px; border-radius: 50%;
+    display: grid; place-items: center; font-size: 12px;
+  }
+  .compare-bar .cb-label { font-size: 13px; font-weight: 600; }
+  .compare-bar .cb-avatars { display: flex; margin-left: 4px; }
+  .compare-bar .cb-avatars .cb-av {
+    width: 26px; height: 26px; border-radius: 50%; color: white;
+    display: grid; place-items: center; font-size: 10.5px; font-weight: 800;
+    border: 2px solid #111827;
+    margin-left: -8px;
+  }
+  .compare-bar .cb-avatars .cb-av:first-child { margin-left: 0; }
+  .compare-bar .cb-btn {
+    background: var(--blue); color: white; border: 0;
+    padding: 9px 16px; border-radius: 999px;
+    font-size: 13px; font-weight: 700;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: background .15s ease;
+  }
+  .compare-bar .cb-btn:hover { background: var(--blue-strong); }
+  .compare-bar .cb-clear {
+    background: transparent; color: rgba(255,255,255,.7); border: 0;
+    font-size: 12px; padding: 4px 6px;
+  }
+  .compare-bar .cb-clear:hover { color: white; }
+
+  /* ---------- Compare Screen 4 ---------- */
+  .cmp-header {
+    padding: 22px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 18px;
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  }
+  .cmp-header .icon-wrap {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: var(--blue-soft); color: var(--blue);
+    display: grid; place-items: center; flex-shrink: 0;
+  }
+  .cmp-header h2 { margin: 0; font-size: 20px; letter-spacing: -.02em; }
+  .cmp-header p  { margin: 3px 0 0; font-size: 12.5px; color: var(--text-mute); }
+
+  .cmp-empty {
+    background: var(--surface); border: 1px dashed var(--border-strong);
+    border-radius: var(--radius); padding: 40px 20px;
+    text-align: center; color: var(--text-mute);
+    font-size: 14px;
+  }
+
+  .cmp-table-wrap {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+  .cmp-scroll { overflow-x: auto; }
+  .cmp-table {
+    width: 100%; min-width: 640px;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  .cmp-table th, .cmp-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    text-align: left;
+  }
+  .cmp-table tr:last-child td { border-bottom: 0; }
+  .cmp-table th {
+    background: var(--surface-alt);
+    color: var(--text-sub); font-weight: 700;
+    font-size: 12px; letter-spacing: -.01em;
+    position: sticky; top: 0;
+  }
+  .cmp-table th.corner {
+    width: 140px; background: var(--surface);
+  }
+  .cmp-table td.rowlabel {
+    color: var(--text-mute); font-size: 12.5px; font-weight: 700;
+    background: #fbfcfe;
+    width: 140px;
+  }
+  .cmp-comp-head {
+    display: flex; align-items: center; gap: 10px; flex-wrap: nowrap;
+  }
+  .cmp-comp-head .cmp-logo {
+    width: 32px; height: 32px; border-radius: 8px;
+    color: white; font-weight: 800; font-size: 12px;
+    display: grid; place-items: center; flex-shrink: 0;
+  }
+  .cmp-comp-head .cmp-nm { font-size: 14px; font-weight: 800; letter-spacing: -.02em; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cmp-comp-head .cmp-sub { font-size: 11px; color: var(--text-mute); }
+  .cmp-comp-head .cmp-rm {
+    margin-left: auto;
+    background: transparent; border: 0; color: var(--text-mute);
+    font-size: 16px; line-height: 1; padding: 4px 6px;
+    border-radius: 6px;
+  }
+  .cmp-comp-head .cmp-rm:hover { background: #fef2f2; color: var(--red); }
+
+  .cmp-mini-bar {
+    height: 8px; background: var(--surface-alt); border-radius: 999px;
+    position: relative; margin-top: 6px;
+    overflow: hidden;
+  }
+  .cmp-mini-bar > span {
+    position: absolute; inset: 0 auto 0 0;
+    background: var(--blue); border-radius: 999px;
+    transition: width .5s cubic-bezier(.4,0,.2,1);
+  }
+  .cmp-mini-bar.green > span { background: var(--green); }
+  .cmp-mini-bar.yellow > span { background: var(--yellow); }
+  .cmp-mini-bar.red > span { background: var(--red); }
+  .cmp-score {
+    font-weight: 800; font-size: 16px; letter-spacing: -.02em;
+  }
+  .cmp-score small { font-size: 12px; color: var(--text-mute); font-weight: 600; }
+  .cmp-score.green { color: var(--green); }
+  .cmp-score.yellow { color: var(--yellow); }
+  .cmp-score.red { color: var(--red); }
+
+  .cmp-add {
+    background: var(--surface); border: 2px dashed var(--border-strong);
+    color: var(--text-mute); font-size: 13px; font-weight: 600;
+    border-radius: 10px; padding: 14px 18px;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    min-width: 140px;
+  }
+  .cmp-add:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
+
+  @media (max-width: 640px) {
+    .hero { padding: 24px 8px 20px; }
+    .hero h1 { font-size: 24px; }
+    .search-wrap { padding-left: 16px; }
+    .search-btn { padding: 10px 14px; font-size: 13px; }
+    .nav-crumbs { display: none; }
+    .company-header { flex-direction: column; align-items: flex-start; }
+    .detail-header { flex-direction: column; align-items: flex-start; }
+    .toggle-wrap { width: 100%; justify-content: space-between; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand" onclick="goScreen(1)">
+      <div class="brand-logo">JI</div>
+      <div class="brand-name">JOB <span>INSIGHT</span></div>
+    </div>
+    <div class="nav-crumbs" id="crumbs">
+      <span class="crumb active" data-step="1" onclick="goScreen(1)">검색 · 탐색</span>
+      <span class="sep">›</span>
+      <span class="crumb" data-step="2">기업 프로필</span>
+      <span class="sep">›</span>
+      <span class="crumb" data-step="3">상세 분석</span>
+      <span class="sep">›</span>
+      <span class="crumb" data-step="4" onclick="goScreen(4)">기업 비교</span>
+    </div>
+    <div class="nav-spacer"></div>
+    <button class="nav-btn" onclick="openProfileModal()" title="내 스펙 편집">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span id="navProfileLabel">내 프로필</span>
+    </button>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- SCREEN 1 -->
+  <section class="screen active" id="screen-1">
+    <div class="hero">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        AI 기반 취업정보 탐색 · v2.1
+      </div>
+      <h1>기업 · 직무 검색 한 번으로,<br/><span class="accent">채용 요구사항 · 이슈 · 전형 일정</span>까지.</h1>
+      <p class="sub">
+        국내 대기업 · 중견기업 · 공기업부터 글로벌 Top-Tier까지.
+        AI가 요구사항을 정리하고 내 스펙과 자동 비교해줍니다.
+      </p>
+
+      <form class="search-wrap" onsubmit="onSearch(event)">
+        <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input class="search-input" id="searchInput" placeholder="관심 있는 기업명을 입력해보세요 (예: 삼성전자, TSMC)" autocomplete="off" />
+        <button class="search-btn" type="submit">
+          검색
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </button>
+      </form>
+
+      <div class="quick-links">
+        <span class="lb">인기 기업:</span>
+        <button class="quick-chip demo" onclick="openCompany('SK하이닉스')">SK하이닉스</button>
+        <button class="quick-chip demo" onclick="openCompany('한국전력공사')">한국전력공사</button>
+        <button class="quick-chip demo" onclick="openCompany('ASML')">ASML</button>
+      </div>
+    </div>
+
+    <!-- Profile completeness on home -->
+    <div class="gauge-card" style="margin-bottom:22px;">
+      <div class="gauge-head">
+        <div class="icon-b">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <h4>내 프로필 완성도</h4>
+        <button class="btn-mini" onclick="openProfileModal()">프로필 편집</button>
+      </div>
+      <div class="gauge-body">
+        <div class="ring purple" id="ringCompleteHome">
+          <svg width="84" height="84" viewBox="0 0 84 84">
+            <circle class="ring-track" cx="42" cy="42" r="36" stroke-width="8" fill="none"/>
+            <circle class="ring-value" cx="42" cy="42" r="36" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="226.19" stroke-dashoffset="226.19"/>
+          </svg>
+          <div class="ring-num" id="ringCompleteHomeNum">0<small>%</small></div>
+        </div>
+        <div class="gauge-info">
+          <div class="title" id="completeTitleHome">프로필을 채우고 나에게 맞는 기업을 찾아보세요</div>
+          <p class="desc" id="completeDescHome">전공·학점·어학 성적·자격증을 입력할수록 매칭 정확도가 높아집니다.</p>
+          <div class="completeness-list" id="completeListHome"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dir-section">
+      <div class="dir-title">
+        <h2>전체 기업 탐색 디렉토리</h2>
+        <span class="desc">관심 기업을 선택하면 직무 카테고리를 확인할 수 있습니다.</span>
+      </div>
+
+      <div class="tabs" id="tabs"></div>
+      <div id="tabPanels"></div>
+    </div>
+  </section>
+
+  <!-- SCREEN 2 -->
+  <section class="screen" id="screen-2">
+    <button class="back-list-btn" onclick="goScreen(1)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      전체 기업 목록으로
+    </button>
+    <div class="company-header" id="companyHeader"></div>
+    <div id="fallbackBanner"></div>
+    <div class="section-title">
+      <h3>직무 카테고리를 선택해주세요</h3>
+      <span class="desc">직무 카드에 마우스를 올려 ➕ 버튼을 눌러 최대 3곳을 비교할 수 있습니다.</span>
+    </div>
+    <div class="job-grid" id="jobGrid"></div>
+  </section>
+
+  <!-- SCREEN 3 -->
+  <section class="screen" id="screen-3">
+    <button class="back-list-btn" onclick="goScreen(1)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      전체 기업 목록으로
+    </button>
+    <div class="detail-header">
+      <button class="back-btn" onclick="backToJobs()" title="직무 목록">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      </button>
+      <div class="titles">
+        <h2 id="detailTitle"></h2>
+        <p class="src" id="srcLabel"></p>
+      </div>
+      <div class="toggle-wrap" id="toggleWrap" onclick="toggleCompare()">
+        <span class="label">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          내 프로필과 비교
+        </span>
+        <div class="switch"></div>
+      </div>
+    </div>
+
+    <div class="overview-grid">
+      <!-- Profile completeness -->
+      <div class="gauge-card">
+        <div class="gauge-head">
+          <div class="icon-b">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <h4>내 프로필 완성도</h4>
+          <button class="btn-mini" onclick="openProfileModal()">프로필 편집</button>
+        </div>
+        <div class="gauge-body">
+          <div class="ring purple" id="ringComplete">
+            <svg width="84" height="84" viewBox="0 0 84 84">
+              <circle class="ring-track" cx="42" cy="42" r="36" stroke-width="8" fill="none"/>
+              <circle class="ring-value" cx="42" cy="42" r="36" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="226.19" stroke-dashoffset="226.19"/>
+            </svg>
+            <div class="ring-num" id="ringCompleteNum">0<small>%</small></div>
+          </div>
+          <div class="gauge-info">
+            <div class="title" id="completeTitle">프로필 정보를 채워주세요</div>
+            <p class="desc" id="completeDesc">전공·학점·어학 성적·자격증을 입력할수록 매칭 정확도가 높아집니다.</p>
+            <div class="completeness-list" id="completeList"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Job match score -->
+      <div class="match-card">
+        <div class="gauge-head">
+          <div class="icon-b" style="background:var(--blue-soft);color:var(--blue);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <h4>이 기업 · 직무 지원 적합도</h4>
+          <button class="btn-mini" id="btnAddCompare" onclick="toggleCurrentPin()">비교 추가</button>
+        </div>
+        <div class="gauge-body">
+          <div class="ring" id="ringMatch">
+            <svg width="84" height="84" viewBox="0 0 84 84">
+              <circle class="ring-track" cx="42" cy="42" r="36" stroke-width="8" fill="none"/>
+              <circle class="ring-value" cx="42" cy="42" r="36" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="226.19" stroke-dashoffset="226.19"/>
+            </svg>
+            <div class="ring-num" id="ringMatchNum">–<small></small></div>
+          </div>
+          <div class="gauge-info" style="flex:1;">
+            <div class="title" id="matchTitle">비교 활성화 시 자동 계산됩니다</div>
+            <p class="desc" id="matchDesc">우측의 <b>내 프로필과 비교</b> 토글을 켜면 항목별 매칭 결과가 반영됩니다.</p>
+            <div class="match-bars">
+              <div class="mbar"><div class="lb">🟢 충족</div><div class="val green"><span id="mbGreen">–</span><small>건</small></div></div>
+              <div class="mbar"><div class="lb">🟡 보완</div><div class="val yellow"><span id="mbYellow">–</span><small>건</small></div></div>
+              <div class="mbar"><div class="lb">🔴 미충족</div><div class="val red"><span id="mbRed">–</span><small>건</small></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-actions">
+      <button class="btn-download" id="btnDownloadDetail" onclick="downloadDetailReport()" title="이 직무 분석 결과를 HTML 파일로 저장">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        HTML 리포트 다운로드
+      </button>
+      <span class="hint">요구사항 · 매칭 결과 · 전형 일정을 담은 단일 HTML 파일로 저장됩니다.</span>
+    </div>
+
+    <div class="legend">
+      <span class="legend-item tag-req">[필수]</span>
+      <span class="legend-item tag-pref">[우대]</span>
+      <span class="legend-item tag-bonus">[가산점(공기업)]</span>
+      <span class="legend-item tag-ref">[참고]</span>
+      <span class="legend-item tag-ai">[AI 분석]</span>
+    </div>
+
+    <div class="dashboard">
+      <div id="detailMain"></div>
+      <aside class="side">
+        <div class="side-card" id="profileSideCard">
+          <h4>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            내 프로필
+            <button class="sidecard-edit" onclick="openProfileModal()">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              편집
+            </button>
+          </h4>
+          <div id="profileSideBody"></div>
+        </div>
+
+        <div class="side-card" id="summaryCard" style="display:none;">
+          <h4>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></svg>
+            비교 요약
+          </h4>
+          <div class="summary-row"><span>🟢 충족</span><span class="summary-count sm-green" id="cntGreen">0</span></div>
+          <div class="summary-row"><span>🟡 보완/확인 필요</span><span class="summary-count sm-yellow" id="cntYellow">0</span></div>
+          <div class="summary-row"><span>🔴 미충족</span><span class="summary-count sm-red" id="cntRed">0</span></div>
+        </div>
+
+        <div class="disclaimer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div>
+            표시되는 요구사항은 <b>공식 채용 홈페이지 기준</b>이며, JOB INSIGHT는 <b>합격 확률을 수치로 예측하지 않습니다</b>. 최종 지원 전 반드시 원문 공고를 확인하세요.
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+</div>
+
+<!-- SCREEN 4 : 3-way Compare -->
+  <section class="screen" id="screen-4">
+    <button class="back-list-btn" onclick="goScreen(1)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      전체 기업 목록으로
+    </button>
+
+    <div class="cmp-header">
+      <div class="icon-wrap">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>
+      </div>
+      <div style="flex:1;min-width:0;">
+        <h2>기업 · 직무 나란히 비교</h2>
+        <p>선택한 기업의 요구 스펙 · 마감일 · 나와의 매칭률을 한 화면에 나란히 놓고 비교하세요. (최대 3개)</p>
+      </div>
+      <button class="btn-download" id="btnDownloadCompare" onclick="downloadCompareReport()" title="비교 결과를 HTML 파일로 저장">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        HTML 리포트 다운로드
+      </button>
+      <button class="btn" onclick="clearCompare()">전체 비우기</button>
+    </div>
+
+    <div id="compareContent"></div>
+  </section>
+
+</div>
+
+<!-- Floating compare bar -->
+<div class="compare-bar" id="compareBar">
+  <span class="cb-count" id="cbCount">0</span>
+  <div class="cb-avatars" id="cbAvatars"></div>
+  <span class="cb-label" id="cbLabel">기업이 비교 목록에 담겼습니다</span>
+  <button class="cb-btn" onclick="goScreen(4)">
+    비교 화면 열기
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+  </button>
+  <button class="cb-clear" onclick="clearCompare()" title="비우기">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+</div>
+
+<!-- Profile Edit Modal -->
+<div class="modal-overlay" id="profileModal" onclick="onModalOverlayClick(event)">
+  <div class="modal" role="dialog" aria-modal="true" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <div class="icon-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <div>
+        <h3>내 스펙 편집</h3>
+        <p>입력한 정보는 브라우저에만 저장되며, 상세 분석의 🟢/🟡/🔴 매칭에 즉시 반영됩니다.</p>
+      </div>
+      <button class="close" onclick="closeProfileModal()" title="닫기">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="section-label"><span class="num">1</span> 기본 정보</div>
+      <div class="form-grid">
+        <div class="field">
+          <label>이름 <span class="lb-desc">(선택)</span></label>
+          <input type="text" id="f-name" placeholder="예: 홍길동" />
+        </div>
+        <div class="field">
+          <label>이메일 <span class="lb-desc">(선택)</span></label>
+          <input type="email" id="f-email" placeholder="example@mail.com" />
+        </div>
+      </div>
+
+      <div class="section-label"><span class="num">2</span> 학력 · 전공</div>
+      <div class="form-grid">
+        <div class="field">
+          <label>전공</label>
+          <input type="text" id="f-major" placeholder="예: 전자공학과" />
+        </div>
+        <div class="field">
+          <label>학년 / 학적</label>
+          <select id="f-grade">
+            <option value="">선택 안 함</option>
+            <option value="1학년">1학년</option>
+            <option value="2학년">2학년</option>
+            <option value="3학년">3학년</option>
+            <option value="4학년">4학년</option>
+            <option value="졸업예정">졸업 예정</option>
+            <option value="졸업">졸업</option>
+            <option value="휴학 중">휴학 중</option>
+            <option value="석사">석사</option>
+            <option value="박사">박사</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>학점 <span class="lb-desc">(GPA · 만점 기준)</span></label>
+          <div class="split">
+            <input type="number" id="f-gpa" step="0.01" min="0" max="4.5" placeholder="예: 3.8" />
+            <span class="sep">/</span>
+            <input type="number" id="f-gpa-max" step="0.01" min="1" max="5" value="4.5" />
+          </div>
+        </div>
+        <div class="field">
+          <label>학교 <span class="lb-desc">(선택)</span></label>
+          <input type="text" id="f-school" placeholder="예: OO대학교" />
+        </div>
+        <div class="field full">
+          <label>주요 이수 과목 <span class="lb-desc">Enter 또는 , 로 추가</span></label>
+          <div class="chip-editor" id="chipCourses" onclick="focusChipInput('chipCourses')">
+            <input type="text" placeholder="예: 공학수학, 신호처리, 반도체공정" onkeydown="onChipKey(event, 'courses')" onblur="commitChipInput(event, 'courses')" />
+          </div>
+        </div>
+      </div>
+
+      <div class="section-label"><span class="num">3</span> 어학 성적</div>
+      <div class="hint-text" style="margin-bottom:6px;">아직 취득 전이면 비워두거나 "준비 중" 이라고 입력하세요.</div>
+      <div class="lang-row">
+        <div class="name">TOEIC <small>ETS 990점 만점</small></div>
+        <input type="text" id="f-lang-toeic" placeholder="예: 850" />
+      </div>
+      <div class="lang-row">
+        <div class="name">TOEIC Speaking <small>200점 만점</small></div>
+        <input type="text" id="f-lang-toeicspeaking" placeholder="예: 130" />
+      </div>
+      <div class="lang-row">
+        <div class="name">OPIc <small>NL / IL / IM1~3 / IH / AL</small></div>
+        <input type="text" id="f-lang-opic" placeholder="예: IM2" />
+      </div>
+      <div class="lang-row">
+        <div class="name">TEPS / IELTS <small>기타 공인 시험</small></div>
+        <input type="text" id="f-lang-other" placeholder="예: IELTS 7.0" />
+      </div>
+      <div class="lang-row">
+        <div class="name">비즈니스 영어 회화 <small>글로벌 인터뷰 가능 여부</small></div>
+        <select id="f-lang-business" style="padding:8px 10px; border:1px solid var(--border); border-radius:8px; font-size:13px; font-family:inherit;">
+          <option value="false">아니오</option>
+          <option value="true">예 (Fluent)</option>
+        </select>
+      </div>
+
+      <div class="section-label"><span class="num">4</span> 자격증 · 면허</div>
+      <div class="field">
+        <label>보유 자격증 <span class="lb-desc">Enter 또는 , 로 추가 (예: 전기기사, 정보처리기사)</span></label>
+        <div class="chip-editor" id="chipCerts" onclick="focusChipInput('chipCerts')">
+          <input type="text" placeholder="예: 전기기사, 한국사능력검정 2급" onkeydown="onChipKey(event, 'certs')" onblur="commitChipInput(event, 'certs')" />
+        </div>
+      </div>
+
+      <div class="section-label"><span class="num">5</span> 기타 경험</div>
+      <div class="field">
+        <label>프로젝트 · 인턴 · 대외활동 <span class="lb-desc">Enter 또는 , 로 추가</span></label>
+        <div class="chip-editor" id="chipExps" onclick="focusChipInput('chipExps')">
+          <input type="text" placeholder="예: 캡스톤 프로젝트, 해외 교환학생" onkeydown="onChipKey(event, 'exps')" onblur="commitChipInput(event, 'exps')" />
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-foot">
+      <span class="save-toast-inline" id="saveInlineToast">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        저장되었습니다
+      </span>
+      <button class="btn btn-ghost" onclick="resetProfile()">초기화</button>
+      <button class="btn" onclick="closeProfileModal()">취소</button>
+      <button class="btn btn-primary" onclick="saveProfileFromForm()">저장하고 반영</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" style="
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: #111827; color: white; padding: 10px 18px; border-radius: 999px;
+  font-size: 13.5px; opacity: 0; pointer-events: none;
+  transition: all .25s ease; z-index: 60; box-shadow: 0 10px 24px rgba(0,0,0,.2);
+  max-width: 90vw; text-align: center;
+"></div>
+
+<script>
+/* ============================================================
+   Directory Data
+   ============================================================ */
+const CATEGORIES = [
+  { id: 'ko-large', label: '국내 대기업', icon: '🏢' },
+  { id: 'ko-mid',   label: '중견기업',    icon: '🏭' },
+  { id: 'ko-pub',   label: '공기업',      icon: '🏛️' },
+  { id: 'global',   label: '해외 · 글로벌', icon: '🌏' }
+];
+
+const LOGO_PALETTE = [
+  ['#1428a0','#2255e0'],['#e60028','#ff4d5b'],['#a50034','#e6194b'],
+  ['#0074c8','#00a4e4'],['#000000','#333333'],['#ea1c15','#f97316'],
+  ['#004098','#0055b8'],['#005baa','#0088cc'],['#003057','#2c5282'],
+  ['#7c3aed','#a78bfa'],['#f97316','#fb923c'],['#0f766e','#14b8a6'],
+  ['#4338ca','#6366f1'],['#065f46','#059669'],['#dc2626','#ef4444'],
+  ['#9333ea','#a855f7'],['#0369a1','#0284c7'],['#1e40af','#3b82f6'],
+  ['#0f172a','#1e293b'],['#0891b2','#06b6d4']
+];
+
+/* ------------------------------------------------------------
+   기업 목록 / 상세 데이터는 data/companies.json 에서 비동기 로드됩니다.
+   (아래 변수들은 loadCompanyData() 실행 후 채워집니다)
+   ------------------------------------------------------------ */
+const COMPANY_DATA_URL = 'data/companies.json';
+
+let KO_LARGE = [];
+let KO_MID = [];
+let KO_PUB = [];
+let GLOBAL_INDUSTRIES = [];
+let SAMPLES = {};
+let DETAIL_DATA = {};
+let COMPANY_DATA = null;      // 원본 JSON 보관
+let companyDataReady = false; // 로드 완료 여부
+
+/* ============================================================
+   Company Data Loader (data/companies.json 비동기 로드)
+   ============================================================ */
+let companyDataPromise = null;
+
+function loadCompanyData() {
+  // 이미 진행 중이거나 완료된 요청이 있으면 재사용 (중복 fetch 방지)
+  if (!companyDataPromise) {
+    companyDataPromise = fetchCompanyData().catch(err => {
+      companyDataPromise = null; // 실패 시 재시도 허용
+      throw err;
+    });
+  }
+  return companyDataPromise;
+}
+
+async function fetchCompanyData() {
+  const res = await fetch(COMPANY_DATA_URL, { cache: 'no-cache' });
+  if (!res.ok) throw new Error(`companies.json 로드 실패 (HTTP ${res.status})`);
+  const json = await res.json();
+
+  COMPANY_DATA      = json;
+  KO_LARGE          = Array.isArray(json.KO_LARGE) ? json.KO_LARGE : [];
+  KO_MID            = Array.isArray(json.KO_MID) ? json.KO_MID : [];
+  KO_PUB            = Array.isArray(json.KO_PUB) ? json.KO_PUB : [];
+  GLOBAL_INDUSTRIES = Array.isArray(json.GLOBAL_INDUSTRIES) ? json.GLOBAL_INDUSTRIES : [];
+  SAMPLES           = json.SAMPLES || {};
+  DETAIL_DATA       = json.DETAIL_DATA || {};
+
+  buildCategoryIndex();
+  companyDataReady = true;
+  return json;
+}
+
+/* ============================================================
+   Fallback Generators (모든 기업 진입 보장)
+   ============================================================ */
+const CATEGORY_INDEX = {};
+
+function buildCategoryIndex() {
+  Object.keys(CATEGORY_INDEX).forEach(k => delete CATEGORY_INDEX[k]);
+  KO_LARGE.forEach(c => CATEGORY_INDEX[c.name] = { cat:'국내 대기업', short:c.short, tag:c.tag });
+  KO_MID.forEach(c   => CATEGORY_INDEX[c.name] = { cat:'중견기업', short:c.short, tag:c.tag });
+  KO_PUB.forEach(c   => CATEGORY_INDEX[c.name] = { cat:'공기업', short:c.short, tag:c.tag });
+  GLOBAL_INDUSTRIES.forEach(g => g.items.forEach(c => CATEGORY_INDEX[c.name] = { cat:'해외 · 글로벌', short:c.short, tag:c.tag, group:g.group }));
+}
+
+function fallbackJobsFor(category) {
+  if (category === '공기업') {
+    return [
+      { key:'tech-electric', title:'기술직 (전기)',  cat:'기술직', desc:'전기설비 운영·유지관리' },
+      { key:'tech-mech',     title:'기술직 (기계)',  cat:'기술직', desc:'기계·설비 안전 및 유지보수' },
+      { key:'ict',           title:'ICT',            cat:'기술직', desc:'IT 시스템·데이터·보안' },
+      { key:'office',        title:'사무직',         cat:'사무직', desc:'경영·기획·재무·인사' }
+    ];
+  }
+  if (category === '해외 · 글로벌') {
+    return [
+      { key:'rnd',       title:'R&D Engineer',      cat:'Research', desc:'제품·기술 연구개발' },
+      { key:'field',     title:'Field / Support Engineer', cat:'Field', desc:'현장 기술 지원 및 유지보수' },
+      { key:'sw',        title:'Software Engineer', cat:'Engineering', desc:'플랫폼·펌웨어·데이터' },
+      { key:'ops',       title:'Operations · SCM',  cat:'Operations',  desc:'공급망·물류·프로세스 최적화' }
+    ];
+  }
+  // 국내 대기업 / 중견기업 기본
+  return [
+    { key:'rnd',      title:'연구개발 (R&D)',   cat:'연구개발', desc:'핵심 기술·제품 연구 및 개발' },
+    { key:'process',  title:'생산 / 공정',     cat:'생산/기술', desc:'제조 공정 운영 및 수율·품질 개선' },
+    { key:'sw',       title:'SW / IT',         cat:'연구개발', desc:'소프트웨어·플랫폼·데이터 엔지니어링' },
+    { key:'plan',     title:'경영지원 / 기획',  cat:'경영지원', desc:'사업전략·재무·인사·마케팅' }
+  ];
+}
+
+function fallbackSampleFor(companyName) {
+  const meta = CATEGORY_INDEX[companyName] || { cat:'해외 · 글로벌', short:companyName.slice(0,2).toUpperCase(), tag:'' };
+  const paletteIdx = (Math.abs(hashCode(companyName)) % LOGO_PALETTE.length);
+  return {
+    company: companyName,
+    category: meta.cat,
+    industry: `${meta.tag || '주요 산업 기업'}${meta.group ? ' · ' + meta.group : ''}`,
+    logoShort: meta.short,
+    logoGrad: LOGO_PALETTE[paletteIdx],
+    source: `${companyName} 공식 채용 페이지 (기준일: 2026.09.15) — 데모 템플릿`,
+    isFallback: true,
+    jobs: fallbackJobsFor(meta.cat)
+  };
+}
+
+function fallbackDetailFor(companyName, jobKey) {
+  const meta = CATEGORY_INDEX[companyName] || { cat:'해외 · 글로벌' };
+  const jobs = fallbackJobsFor(meta.cat);
+  const job = jobs.find(j => j.key === jobKey) || jobs[0];
+  const isPublic = meta.cat === '공기업';
+  const isGlobal = meta.cat === '해외 · 글로벌';
+
+  const documents = {
+    education: { type:'필수', detail:'관련 전공(전자·전기·컴퓨터·기계 등) 학사 이상' },
+    cutoff:    { type:'필수', detail: isGlobal
+      ? '영어 회화 능통자 (인터뷰 진행 · 별도 공인 컷 없음) 또는 TOEIC 800/OPIc IH 수준 권장'
+      : '공인 어학 점수 (TOEIC 750 이상 또는 OPIc IM2 이상) 권장' },
+    license:   { type:'우대', detail:'직무 관련 공인 자격증 및 어학 점수 우대' },
+    certificate: isPublic ? [
+      { name:'직무 관련 기사 자격증', type:'가산점', detail:'서류 전형 가점 (전기·기계·정보처리 등)' },
+      { name:'한국사능력검정 2급 이상', type:'우대', detail:'공기업 공통 우대사항' }
+    ] : [
+      { name:'직무 관련 자격증', type:'우대', detail:'예: 정보처리기사, 산업기사, 6-Sigma 등' },
+      { name:'공인 어학 성적', type:'우대', detail:'TOEIC / OPIc / IELTS 등 최근 2년 이내 성적' }
+    ]
+  };
+
+  const techStack = {
+    summary: `${companyName} ${job.title} 직무에 필요한 실무 분석 툴 및 기본 엔지니어링 역량이 요구됩니다. (데이터 미확정 · 표준 템플릿)`,
+    tools: [
+      { name:'전공 기초 지식',     category:'도메인',   level:'필수' },
+      { name:'MS Office / 문서',   category:'문서 도구', level:'필수' },
+      { name:'Python (데이터 분석)', category:'데이터',   level:'우대' },
+      { name:'직무 특화 분석 툴',  category:'실무',     level:'참고' }
+    ]
+  };
+
+  const competency = [
+    { name:'문제해결능력', type:'AI분석', detail:'프로젝트 또는 실무 경험을 통한 문제 정의·해결 사례 어필' },
+    { name:'커뮤니케이션 · 협업', type:'필수', detail:'유관 부서·글로벌 팀과의 협업 경험' + (isGlobal ? ' (영어 커뮤니케이션 필수)' : '') }
+  ];
+
+  const insight = {
+    news: [
+      '2026 글로벌 테크 트렌드 대응 및 신규 사업 확대',
+      `${companyName} 주력 제품군 시장 점유율 확대 전략 추진`,
+      'ESG · AI 도입 등 전사적 디지털 트랜스포메이션 진행'
+    ],
+    products: ['주력 제품 A', '주력 제품 B', '신규 서비스 라인업'],
+    competitors: isPublic ? ['국내 공공기관 · 민간 위탁사'] : [ (meta.cat === '해외 · 글로벌' ? '글로벌 Top-Tier 경쟁사' : '국내 동종 대기업'), '신흥 스타트업' ]
+  };
+
+  const workCondition = isPublic ? {
+    location: '본사 및 전국 지사 (순환근무)',
+    shift: '통상근무 / 현장직은 상황에 따른 교대',
+    commute: '통근버스 일부 운행 · 지방 이동 빈번',
+    dorm: '사택 제공 (조건부)',
+    etc: '경영평가 성과급 · 정년 보장 · 자녀 학자금 지원'
+  } : isGlobal ? {
+    location: '한국 사무소 (서울·판교·화성 등) · 고객사 상주 가능',
+    shift: '직무에 따라 유연근무 또는 교대',
+    commute: '거점별 지원 · Relocation 패키지 제공',
+    dorm: '기숙사 없음 · 주거 지원금 제공 가능',
+    etc: '유연근무제 · 자사주 · 글로벌 트레이닝 (해외 파견)'
+  } : {
+    location: '수도권 본사 및 지방 사업장',
+    shift: '통상근무 · 생산직군 교대근무 가능성',
+    commute: '통근버스 운행 (거점별)',
+    dorm: '기숙사 · 사택 조건부 제공',
+    etc: '성과급 · 복지포인트 · 자녀 학자금'
+  };
+
+  const timeline = isGlobal ? [
+    { title:'상시 지원 접수',           desc:'연중 상시 (Careers 사이트 기준)', state:'done' },
+    { title:'1차 서류 · 리크루터 인터뷰', desc:'2026 하반기 진행 중',            state:'next' },
+    { title:'2차 기술 면접',            desc:'통과 후 1~2주 이내',              state:'upcoming' },
+    { title:'온사이트 / 최종 면접',      desc:'대면 인터뷰',                     state:'upcoming' },
+    { title:'Offer & 온보딩',           desc:'4~6주 이내 진행',                 state:'upcoming' }
+  ] : isPublic ? [
+    { title:'채용 공고 오픈',   desc:'2026 하반기 공채',   state:'done' },
+    { title:'서류 접수',       desc:'2026 하반기 진행 중', state:'next' },
+    { title:'NCS 필기 시험',   desc:'서류 통과자 대상',    state:'upcoming' },
+    { title:'직무 · 인성 면접', desc:'필기 통과자 대상',    state:'upcoming' },
+    { title:'최종 합격 발표',   desc:'2026년 말 예정',      state:'upcoming' }
+  ] : [
+    { title:'채용 공고 오픈',   desc:'2026 하반기 공채',       state:'done' },
+    { title:'서류 접수',       desc:'2026 하반기 진행 중',    state:'next' },
+    { title:'인적성 / 코딩테스트', desc:'서류 통과자 대상',    state:'upcoming' },
+    { title:'직무 면접',        desc:'실무진 심층 인터뷰',      state:'upcoming' },
+    { title:'임원 면접',        desc:'최종 라운드',            state:'upcoming' },
+    { title:'최종 합격 발표',   desc:'2026년 말 예정',         state:'upcoming' }
+  ];
+
+  return {
+    company: companyName, job: job.title, category: meta.cat,
+    source: `${companyName} 공식 채용 페이지 (기준일: 2026.09.15) — 데모 템플릿`,
+    dday: isGlobal ? { label:'상시 채용', type:'ongoing', note:'수시 접수' } : { label:'2026 하반기', type:'', note:'공채 진행 중' },
+    isFallback: true,
+    documents, techStack, competency, insight, workCondition, timeline
+  };
+}
+
+function hashCode(str) {
+  let h = 0;
+  for (let i = 0; i < str.length; i++) {
+    h = ((h << 5) - h) + str.charCodeAt(i);
+    h |= 0;
+  }
+  return h;
+}
+
+/* ============================================================
+   Profile & State (mutable — 편집 가능)
+   ============================================================ */
+const DEFAULT_PROFILE = {
+  name: '', email: '', school: '',
+  major: '전자공학과', grade: '3학년', gpa: 3.8, gpaMax: 4.5,
+  courses: ['공학수학','신호처리'],
+  language: { toeic:'준비 중', toeicSpeaking:'', opic:'', other:'', businessEnglish:false },
+  certificates: [],
+  experience: ['교내 캡스톤 프로젝트 진행 중']
+};
+const STORAGE_KEY = 'jobinsight_profile_v1';
+
+let PROFILE = loadProfile();
+
+function loadProfile() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return { ...DEFAULT_PROFILE, ...JSON.parse(raw), language: { ...DEFAULT_PROFILE.language, ...(JSON.parse(raw).language||{}) } };
+  } catch (e) {}
+  return JSON.parse(JSON.stringify(DEFAULT_PROFILE));
+}
+function persistProfile() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(PROFILE)); } catch(e) {}
+}
+
+let compareMode = false;
+let currentCompany = null;   // company name
+let currentJobKey = null;    // currently viewed job key (Screen 3)
+let currentDetail = null;    // detail data object (from DETAIL_DATA or fallback)
+
+/* Compare set (up to 3 company+직무 조합을 나란히 비교) */
+/* 각 항목은 "회사명__직무키" 형식의 복합 키로 저장됩니다. */
+const COMPARE_SET = new Set();
+const COMPARE_MAX = 3;
+
+function compareKeyOf(company, jobKey) { return `${company}__${jobKey}`; }
+function parseCompareKey(key) {
+  const idx = key.indexOf('__');
+  return { company: key.slice(0, idx), jobKey: key.slice(idx + 2) };
+}
+
+/* ---------- Profile completeness ---------- */
+function computeCompleteness() {
+  const items = [
+    { key:'전공',    ok: !!(PROFILE.major && PROFILE.major.trim()) },
+    { key:'학년',    ok: !!(PROFILE.grade && PROFILE.grade.trim()) },
+    { key:'학점',    ok: !(PROFILE.gpa === '' || PROFILE.gpa == null || isNaN(parseFloat(PROFILE.gpa))) },
+    { key:'이수 과목', ok: (PROFILE.courses || []).length > 0 },
+    { key:'TOEIC/스피킹', ok: !!(parseToeic() || parseToeicSpeaking()) },
+    { key:'OPIc',   ok: !!parseOpicLevel() },
+    { key:'영어 회화', ok: hasBusinessEnglish() },
+    { key:'자격증',  ok: (PROFILE.certificates || []).length > 0 },
+    { key:'경험',    ok: (PROFILE.experience || []).length > 0 }
+  ];
+  const filled = items.filter(i => i.ok).length;
+  const pct = Math.round((filled / items.length) * 100);
+  return { pct, items, filled, total: items.length };
+}
+
+function ringSetValue(ringId, numId, pct, colorClass) {
+  const ring = document.getElementById(ringId);
+  const num  = document.getElementById(numId);
+  if (!ring || !num) return;
+  const circle = ring.querySelector('.ring-value');
+  const C = 2 * Math.PI * 36;
+  const offset = C - (Math.max(0, Math.min(100, pct)) / 100) * C;
+  if (circle) circle.setAttribute('stroke-dashoffset', String(offset));
+  ring.classList.remove('green','yellow','red','purple');
+  if (colorClass) ring.classList.add(colorClass);
+  num.innerHTML = `${pct}<small>%</small>`;
+}
+
+function renderCompletenessTo(ringId, numId, titleId, descId, listId) {
+  const { pct, items } = computeCompleteness();
+  ringSetValue(ringId, numId, pct, 'purple');
+  const title = document.getElementById(titleId);
+  const desc  = document.getElementById(descId);
+  const list  = document.getElementById(listId);
+  if (title && desc) {
+    if (pct >= 80) {
+      title.textContent = '프로필이 거의 완성됐어요';
+      desc.textContent  = '이제 관심 기업을 골라 상세 매칭 결과를 확인해보세요.';
+    } else if (pct >= 40) {
+      title.textContent = '핵심 정보는 잘 채우셨어요';
+      desc.textContent  = '어학 성적 · 자격증을 추가하면 매칭 정확도가 크게 올라갑니다.';
+    } else {
+      title.textContent = '프로필 정보를 채워주세요';
+      desc.textContent  = '전공 · 학점 · 어학 · 자격증을 입력해 매칭 정확도를 높여보세요.';
+    }
+  }
+  if (list) {
+    list.innerHTML = items.map(i => `
+      <span class="cchip ${i.ok?'ok':'no'}">
+        ${i.ok ? '✓' : '·'} ${escapeHTML(i.key)}
+      </span>
+    `).join('');
+  }
+}
+
+function renderCompleteness() {
+  renderCompletenessTo('ringCompleteHome','ringCompleteHomeNum','completeTitleHome','completeDescHome','completeListHome');
+  renderCompletenessTo('ringComplete','ringCompleteNum','completeTitle','completeDesc','completeList');
+}
+
+/* ---------- Match score computation ---------- */
+/* Runs evaluate() over all comparable items and returns counts + weighted score */
+function computeMatchScore(detailObj) {
+  const savedDetail = currentDetail;
+  const savedMode = compareMode;
+  currentDetail = detailObj;
+  compareMode = true;
+  let g=0, y=0, r=0, total=0;
+  const items = [];
+
+  const D = detailObj;
+  // Weights: 필수=3, 우대=2, AI분석=2, 가산점=2, 참고/권장=1
+  function weightOf(type) {
+    const t = String(type||'').replace(/\s+/g,'');
+    if (t === '필수') return 3;
+    if (t === '우대') return 2;
+    if (t === 'AI분석') return 2;
+    if (t === '가산점') return 2;
+    return 1;
+  }
+
+  // education
+  if (D.documents && D.documents.education) {
+    const ev = evaluate('education', null);
+    items.push({ w: weightOf(D.documents.education.type), s: ev.s });
+  }
+  if (D.documents && D.documents.cutoff) {
+    const ev = evaluate('cutoff', null);
+    items.push({ w: weightOf(D.documents.cutoff.type), s: ev.s });
+  }
+  if (D.documents && D.documents.license) {
+    const ev = evaluate('license', null);
+    items.push({ w: weightOf(D.documents.license.type), s: ev.s });
+  }
+  (D.documents && D.documents.certificate ? D.documents.certificate : []).forEach(c => {
+    const ev = evaluate('cert', c.name);
+    items.push({ w: weightOf(c.type), s: ev.s });
+  });
+  (D.techStack && D.techStack.tools ? D.techStack.tools : []).forEach(t => {
+    const ev = evaluate('stack', t.name);
+    items.push({ w: weightOf(t.level), s: ev.s });
+  });
+  (D.competency || []).forEach(c => {
+    const ev = evaluate('comp', c.name);
+    items.push({ w: weightOf(c.type), s: ev.s });
+  });
+
+  let totalW = 0, gotW = 0;
+  items.forEach(it => {
+    totalW += it.w;
+    if (it.s === 'green')  { g++; gotW += it.w; }
+    else if (it.s === 'yellow') { y++; gotW += it.w * 0.5; }
+    else                    { r++; }
+  });
+  total = items.length;
+  const pct = totalW > 0 ? Math.round((gotW / totalW) * 100) : 0;
+  currentDetail = savedDetail;
+  compareMode = savedMode;
+  return { pct, g, y, r, total };
+}
+
+function matchColorClass(pct) {
+  if (pct >= 75) return 'green';
+  if (pct >= 45) return 'yellow';
+  return 'red';
+}
+function matchLabel(pct) {
+  if (pct >= 85) return '지원 강력 추천';
+  if (pct >= 70) return '지원 적합';
+  if (pct >= 45) return '보완 후 지원 권장';
+  return '스펙 보완 시급';
+}
+
+function renderMatchCard() {
+  if (!currentDetail) return;
+  // Force evaluate in compare mode temporarily
+  const saved = compareMode; compareMode = true;
+  const { pct, g, y, r } = computeMatchScore(currentDetail);
+  compareMode = saved;
+  ringSetValue('ringMatch','ringMatchNum', pct, matchColorClass(pct));
+  document.getElementById('ringMatchNum').innerHTML = `${pct}<small>%</small>`;
+  document.getElementById('mbGreen').textContent = g;
+  document.getElementById('mbYellow').textContent = y;
+  document.getElementById('mbRed').textContent = r;
+  document.getElementById('matchTitle').textContent = matchLabel(pct);
+  document.getElementById('matchDesc').innerHTML =
+    `<b>${escapeHTML(currentDetail.company)}</b> · <b>${escapeHTML(currentDetail.job)}</b> 요구사항 대비 매칭 결과입니다. <span style="color:var(--text-mute);">(가중치: 필수 3점 / 우대·AI분석 2점 / 참고 1점)</span>`;
+
+  const curKey = currentJobKey ? compareKeyOf(currentDetail.company, currentJobKey) : null;
+  const inSet = !!curKey && COMPARE_SET.has(curKey);
+  const btn = document.getElementById('btnAddCompare');
+  if (btn) btn.textContent = inSet ? '비교에서 제거' : (COMPARE_SET.size >= COMPARE_MAX ? '비교 3곳 가득참' : '비교 추가');
+}
+
+/* ---------- Compare set operations ----------
+   COMPARE_SET에는 "회사명__직무키" 형태의 복합 키가 저장됩니다. */
+function togglePin(e, key) {
+  if (e) { e.stopPropagation(); e.preventDefault(); }
+  if (COMPARE_SET.has(key)) COMPARE_SET.delete(key);
+  else {
+    if (COMPARE_SET.size >= COMPARE_MAX) {
+      showToast('최대 3곳까지 비교 가능합니다. 기존 항목을 제거해주세요.');
+      return;
+    }
+    COMPARE_SET.add(key);
+  }
+  syncCompareUI();
+}
+function toggleCurrentPin() {
+  if (!currentCompany || !currentJobKey) return;
+  const key = compareKeyOf(currentCompany, currentJobKey);
+  if (COMPARE_SET.has(key)) COMPARE_SET.delete(key);
+  else {
+    if (COMPARE_SET.size >= COMPARE_MAX) { showToast('최대 3곳까지 비교 가능합니다.'); return; }
+    COMPARE_SET.add(key);
+    showToast(`${currentCompany}이(가) 비교 목록에 추가되었습니다.`);
+  }
+  syncCompareUI();
+}
+function clearCompare() {
+  COMPARE_SET.clear();
+  syncCompareUI();
+  showToast('비교 목록이 비워졌습니다.');
+}
+
+function syncCompareUI() {
+  // refresh job cards (pin state) if company screen is visible
+  if (currentCompany && document.getElementById('screen-2').classList.contains('active')) {
+    renderCompanyScreen(currentCompany);
+  }
+  // refresh compare bar
+  const bar = document.getElementById('compareBar');
+  const cnt = COMPARE_SET.size;
+  if (cnt > 0) {
+    bar.classList.add('show');
+    document.getElementById('cbCount').textContent = cnt;
+    document.getElementById('cbLabel').textContent = cnt === COMPARE_MAX ? '3곳 모두 담겼습니다. 비교 화면에서 확인' : `${cnt}곳 담김 — 최대 3곳 비교`;
+    document.getElementById('cbAvatars').innerHTML = Array.from(COMPARE_SET).map(key => {
+      const { company } = parseCompareKey(key);
+      const info = getCompanyBrand(company);
+      return `<div class="cb-av" style="background:linear-gradient(135deg,${info.grad[0]},${info.grad[1]});">${escapeHTML(info.short)}</div>`;
+    }).join('');
+  } else {
+    bar.classList.remove('show');
+  }
+  // refresh compare screen if visible
+  if (document.getElementById('screen-4').classList.contains('active')) renderCompareScreen();
+  // refresh match card add-compare button
+  if (currentDetail) renderMatchCard();
+}
+
+function getCompanyBrand(name) {
+  const meta = CATEGORY_INDEX[name] || null;
+  const idx = Math.abs(hashCode(name)) % LOGO_PALETTE.length;
+  const short = meta ? meta.short : name.slice(0,2).toUpperCase();
+  return { short, grad: LOGO_PALETTE[idx] };
+}
+
+/* ---------- Compare Screen 4 renderer ---------- */
+function pickDefaultJobKey(companyName) {
+  const s = SAMPLES[companyName];
+  if (s && s.jobs && s.jobs.length) return s.jobs[0].key;
+  const meta = CATEGORY_INDEX[companyName] || { cat: '국내 대기업' };
+  const fb = fallbackJobsFor(meta.cat);
+  return fb[0].key;
+}
+
+function buildDetailFor(companyName, jobKey) {
+  const key = `${companyName}__${jobKey}`;
+  return DETAIL_DATA[key] || fallbackDetailFor(companyName, jobKey);
+}
+
+function renderCompareScreen() {
+  const wrap = document.getElementById('compareContent');
+  const list = Array.from(COMPARE_SET);
+
+  if (list.length === 0) {
+    wrap.innerHTML = `
+      <div class="cmp-empty">
+        <div style="font-size:32px;margin-bottom:8px;">🗂️</div>
+        <div style="font-weight:700;color:var(--text);margin-bottom:4px;">비교할 직무가 없습니다</div>
+        <div>기업 상세 화면에서 직무 카드의 ➕ 버튼을 눌러 최대 3곳을 담아보세요.</div>
+        <button class="btn btn-primary" style="margin-top:14px;" onclick="goScreen(1)">기업 목록 보러가기</button>
+      </div>
+    `;
+    return;
+  }
+
+  // Build details + scores
+  const rows = list.map(key => {
+    const { company, jobKey } = parseCompareKey(key);
+    const D = buildDetailFor(company, jobKey);
+    const savedComp = compareMode; compareMode = true;
+    const score = computeMatchScore(D);
+    compareMode = savedComp;
+    return { key, name: company, jobKey, detail: D, score };
+  });
+
+  // Header row
+  const cols = rows.map(r => {
+    const brand = getCompanyBrand(r.name);
+    return `
+      <th>
+        <div class="cmp-comp-head">
+          <div class="cmp-logo" style="background:linear-gradient(135deg,${brand.grad[0]},${brand.grad[1]});">${escapeHTML(brand.short)}</div>
+          <div style="min-width:0;">
+            <div class="cmp-nm">${escapeHTML(r.name)}</div>
+            <div class="cmp-sub">${escapeHTML(r.detail.category)} · ${escapeHTML(r.detail.job)}</div>
+          </div>
+          <button class="cmp-rm" onclick="togglePin(null,'${r.key.replace(/'/g,"\\'")}')" title="비교에서 제거">&times;</button>
+        </div>
+      </th>
+    `;
+  }).join('') + (rows.length < COMPARE_MAX ? `
+    <th><button class="cmp-add" onclick="goScreen(1)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      기업 추가
+    </button></th>
+  ` : '');
+
+  function cellMatch(r) {
+    const cls = matchColorClass(r.score.pct);
+    return `
+      <div class="cmp-score ${cls}">${r.score.pct}<small>/100</small></div>
+      <div class="cmp-mini-bar ${cls}"><span style="width:${r.score.pct}%;"></span></div>
+      <div style="margin-top:8px; display:flex; gap:8px; font-size:11.5px; color:var(--text-mute);">
+        <span>🟢 ${r.score.g}</span><span>🟡 ${r.score.y}</span><span>🔴 ${r.score.r}</span>
+      </div>
+      <div style="margin-top:4px; font-size:11.5px; font-weight:700;" class="${cls === 'green' ? 'sm-green' : cls === 'yellow' ? 'sm-yellow' : 'sm-red'}">${matchLabel(r.score.pct)}</div>
+    `;
+  }
+  function cellDday(r) {
+    const dd = r.detail.dday || {};
+    const cls = dd.type === 'urgent' ? 'red' : dd.type === 'ongoing' ? 'green' : 'yellow';
+    return `<span class="cmp-score ${cls}" style="font-size:15px;">${escapeHTML(dd.label || '미정')}</span><div style="font-size:11.5px;color:var(--text-mute);margin-top:2px;">${escapeHTML(dd.note || '')}</div>`;
+  }
+  function cellEdu(r)     { const x = r.detail.documents.education;  return `<span class="req-tag ${tagClass(x.type)}">${tagLabel(x.type)}</span> ${escapeHTML(x.detail)}`; }
+  function cellLang(r)    { const x = r.detail.documents.cutoff;     return `<span class="req-tag ${tagClass(x.type)}">${tagLabel(x.type)}</span> ${escapeHTML(x.detail)}`; }
+  function cellLicense(r) { const x = r.detail.documents.license;    return x ? `<span class="req-tag ${tagClass(x.type)}">${tagLabel(x.type)}</span> ${escapeHTML(x.detail)}` : `<span style="color:var(--text-mute);">해당 없음</span>`; }
+  function cellCert(r) {
+    const arr = r.detail.documents.certificate || [];
+    if (!arr.length) return '<span style="color:var(--text-mute);">없음</span>';
+    return `<div style="display:flex;flex-direction:column;gap:6px;">${arr.map(c => `<div><b style="font-weight:600;">${escapeHTML(c.name)}</b> <span class="req-tag ${tagClass(c.type)}">${tagLabel(c.type)}</span><div style="color:var(--text-sub);font-size:12.5px;">${escapeHTML(c.detail)}</div></div>`).join('')}</div>`;
+  }
+  function cellStack(r) {
+    const arr = r.detail.techStack.tools || [];
+    return `<div class="chip-row" style="margin:0;">${arr.map(t => `<span class="chip">${escapeHTML(t.name)}</span>`).join('')}</div>`;
+  }
+  function cellComp(r) {
+    const arr = r.detail.competency || [];
+    return `<div style="display:flex;flex-direction:column;gap:6px;">${arr.map(c => `<div><b style="font-weight:600;">${escapeHTML(c.name)}</b> <span class="req-tag ${tagClass(c.type)}">${tagLabel(c.type)}</span><div style="color:var(--text-sub);font-size:12.5px;">${escapeHTML(c.detail)}</div></div>`).join('')}</div>`;
+  }
+  function cellWork(r) {
+    const w = r.detail.workCondition;
+    return `<div style="font-size:12.5px;line-height:1.6;">📍 ${escapeHTML(w.location)}<br/>🕒 ${escapeHTML(w.shift)}<br/>🏠 ${escapeHTML(w.dorm)}</div>`;
+  }
+  function cellNews(r) {
+    const arr = r.detail.insight.news || [];
+    return `<ul style="margin:0;padding-left:16px;font-size:12.5px;color:var(--text-sub);line-height:1.5;">${arr.slice(0,3).map(n => `<li>${escapeHTML(n)}</li>`).join('')}</ul>`;
+  }
+  function cellAction(r) {
+    return `<button class="btn btn-primary" style="width:100%;font-size:12.5px;padding:8px 12px;" onclick="openDetail('${r.name.replace(/'/g,"\\'")}','${r.jobKey}')">상세 분석 열기 →</button>`;
+  }
+
+  function row(label, fn) {
+    return `<tr><td class="rowlabel">${label}</td>${rows.map(r => `<td>${fn(r)}</td>`).join('')}${rows.length < COMPARE_MAX ? '<td></td>' : ''}</tr>`;
+  }
+
+  wrap.innerHTML = `
+    <div class="cmp-table-wrap">
+      <div class="cmp-scroll">
+        <table class="cmp-table">
+          <thead>
+            <tr>
+              <th class="corner">비교 항목</th>
+              ${cols}
+            </tr>
+          </thead>
+          <tbody>
+            ${row('🎯 매칭률', cellMatch)}
+            ${row('⏰ 마감일 D-Day', cellDday)}
+            ${row('🎓 학력', cellEdu)}
+            ${row('🗣 어학 컷오프', cellLang)}
+            ${row('📜 필수 면허', cellLicense)}
+            ${row('🏅 자격증', cellCert)}
+            ${row('💻 기술 스택', cellStack)}
+            ${row('⚡ 요구 역량', cellComp)}
+            ${row('🏠 근무 여건', cellWork)}
+            ${row('📰 최근 이슈', cellNews)}
+            ${row('🚀 액션', cellAction)}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+/* ---------- Profile Sidecard & Nav render ---------- */
+function renderProfileSideCard() {
+  const gpaStr = (PROFILE.gpa === '' || PROFILE.gpa == null)
+    ? '미입력'
+    : `${PROFILE.gpa} / ${PROFILE.gpaMax || 4.5}`;
+  const langParts = [];
+  if (PROFILE.language.toeic)          langParts.push('TOEIC ' + PROFILE.language.toeic);
+  if (PROFILE.language.toeicSpeaking)  langParts.push('토스 ' + PROFILE.language.toeicSpeaking);
+  if (PROFILE.language.opic)           langParts.push('OPIc ' + PROFILE.language.opic);
+  if (PROFILE.language.other)          langParts.push(PROFILE.language.other);
+  if (PROFILE.language.businessEnglish)langParts.push('영어 회화 Fluent');
+  const langStr = langParts.length ? langParts.join(', ') : '미입력';
+
+  const coursesStr = (PROFILE.courses && PROFILE.courses.length) ? PROFILE.courses.join(', ') : '미입력';
+  const certStr    = (PROFILE.certificates && PROFILE.certificates.length) ? PROFILE.certificates.join(', ') : '미보유';
+  const expStr     = (PROFILE.experience && PROFILE.experience.length) ? PROFILE.experience.join(', ') : '미입력';
+
+  const body = document.getElementById('profileSideBody');
+  if (body) {
+    body.innerHTML = `
+      <div class="profile-row"><span class="k">전공 / 학년</span><span class="v">${escapeHTML(PROFILE.major || '미입력')} ${escapeHTML(PROFILE.grade || '')}</span></div>
+      <div class="profile-row"><span class="k">학점</span><span class="v">${escapeHTML(String(gpaStr))}</span></div>
+      <div class="profile-row"><span class="k">전공 이수</span><span class="v">${escapeHTML(coursesStr)}</span></div>
+      <div class="profile-row"><span class="k">어학</span><span class="v">${escapeHTML(langStr)}</span></div>
+      <div class="profile-row"><span class="k">자격증</span><span class="v">${escapeHTML(certStr)}</span></div>
+      <div class="profile-row"><span class="k">기타 경험</span><span class="v">${escapeHTML(expStr)}</span></div>
+    `;
+  }
+  const navLabel = document.getElementById('navProfileLabel');
+  if (navLabel) {
+    navLabel.textContent = PROFILE.name ? `${PROFILE.name}` : '내 프로필';
+  }
+  try { renderCompleteness(); } catch(e) {}
+}
+
+function escapeHTML(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+/* ---------- Chip Editor state ---------- */
+const CHIP_STATE = { courses: [], certs: [], exps: [] };
+const CHIP_ELEM_MAP = { courses: 'chipCourses', certs: 'chipCerts', exps: 'chipExps' };
+
+function renderChipEditor(kind) {
+  const container = document.getElementById(CHIP_ELEM_MAP[kind]);
+  if (!container) return;
+  const values = CHIP_STATE[kind];
+  const placeholder = container.querySelector('input') ? container.querySelector('input').placeholder : '';
+  container.innerHTML = values.map((v, idx) => `
+    <span class="chip-item">
+      ${escapeHTML(v)}
+      <button type="button" onclick="removeChip('${kind}', ${idx})" title="삭제">&times;</button>
+    </span>
+  `).join('') + `<input type="text" placeholder="${escapeHTML(placeholder)}" onkeydown="onChipKey(event, '${kind}')" onblur="commitChipInput(event, '${kind}')" />`;
+}
+function addChip(kind, value) {
+  const v = String(value || '').trim();
+  if (!v) return;
+  // support comma-separated batch input
+  const parts = v.split(/[,;]/).map(s => s.trim()).filter(Boolean);
+  parts.forEach(p => { if (!CHIP_STATE[kind].includes(p)) CHIP_STATE[kind].push(p); });
+  renderChipEditor(kind);
+  setTimeout(() => focusChipInput(CHIP_ELEM_MAP[kind]), 0);
+}
+function removeChip(kind, idx) {
+  CHIP_STATE[kind].splice(idx, 1);
+  renderChipEditor(kind);
+}
+function focusChipInput(containerId) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const input = el.querySelector('input');
+  if (input) input.focus();
+}
+function onChipKey(e, kind) {
+  if (e.key === 'Enter' || e.key === ',') {
+    e.preventDefault();
+    const val = e.target.value;
+    if (val.trim()) { addChip(kind, val); e.target.value = ''; }
+  } else if (e.key === 'Backspace' && !e.target.value && CHIP_STATE[kind].length) {
+    e.preventDefault();
+    CHIP_STATE[kind].pop();
+    renderChipEditor(kind);
+    setTimeout(() => focusChipInput(CHIP_ELEM_MAP[kind]), 0);
+  }
+}
+function commitChipInput(e, kind) {
+  const val = e.target.value;
+  if (val && val.trim()) { addChip(kind, val); e.target.value = ''; }
+}
+
+/* ---------- Modal open / close ---------- */
+function openProfileModal() {
+  // load form fields from PROFILE
+  document.getElementById('f-name').value = PROFILE.name || '';
+  document.getElementById('f-email').value = PROFILE.email || '';
+  document.getElementById('f-major').value = PROFILE.major || '';
+  document.getElementById('f-grade').value = PROFILE.grade || '';
+  document.getElementById('f-gpa').value = PROFILE.gpa ?? '';
+  document.getElementById('f-gpa-max').value = PROFILE.gpaMax ?? '';
+  document.getElementById('f-school').value = PROFILE.school || '';
+  document.getElementById('f-lang-toeic').value = PROFILE.language.toeic || '';
+  document.getElementById('f-lang-toeicspeaking').value = PROFILE.language.toeicSpeaking || '';
+  document.getElementById('f-lang-opic').value = PROFILE.language.opic || '';
+  document.getElementById('f-lang-other').value = PROFILE.language.other || '';
+  document.getElementById('f-lang-business').value = PROFILE.language.businessEnglish ? 'true' : 'false';
+
+  CHIP_STATE.courses = [...(PROFILE.courses || [])];
+  CHIP_STATE.certs   = [...(PROFILE.certificates || [])];
+  CHIP_STATE.exps    = [...(PROFILE.experience || [])];
+  renderChipEditor('courses');
+  renderChipEditor('certs');
+  renderChipEditor('exps');
+
+  document.getElementById('saveInlineToast').classList.remove('show');
+  document.getElementById('profileModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeProfileModal() {
+  document.getElementById('profileModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+function onModalOverlayClick(e) {
+  if (e.target === e.currentTarget) closeProfileModal();
+}
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const m = document.getElementById('profileModal');
+    if (m && m.classList.contains('active')) closeProfileModal();
+  }
+});
+
+function saveProfileFromForm() {
+  // flush pending chip inputs
+  ['courses','certs','exps'].forEach(kind => {
+    const c = document.getElementById(CHIP_ELEM_MAP[kind]);
+    if (c) {
+      const input = c.querySelector('input');
+      if (input && input.value.trim()) { addChip(kind, input.value); input.value = ''; }
+    }
+  });
+
+  const gpaVal = document.getElementById('f-gpa').value;
+  const gpaMaxVal = document.getElementById('f-gpa-max').value;
+
+  PROFILE = {
+    name:  document.getElementById('f-name').value.trim(),
+    email: document.getElementById('f-email').value.trim(),
+    school: document.getElementById('f-school').value.trim(),
+    major: document.getElementById('f-major').value.trim(),
+    grade: document.getElementById('f-grade').value,
+    gpa:   gpaVal === '' ? '' : parseFloat(gpaVal),
+    gpaMax: gpaMaxVal === '' ? 4.5 : parseFloat(gpaMaxVal),
+    courses: [...CHIP_STATE.courses],
+    certificates: [...CHIP_STATE.certs],
+    experience: [...CHIP_STATE.exps],
+    language: {
+      toeic: document.getElementById('f-lang-toeic').value.trim(),
+      toeicSpeaking: document.getElementById('f-lang-toeicspeaking').value.trim(),
+      opic: document.getElementById('f-lang-opic').value.trim(),
+      other: document.getElementById('f-lang-other').value.trim(),
+      businessEnglish: document.getElementById('f-lang-business').value === 'true'
+    }
+  };
+  persistProfile();
+  renderProfileSideCard();
+  if (currentDetail) renderDetail();
+
+  const t = document.getElementById('saveInlineToast');
+  t.classList.add('show');
+  setTimeout(() => { closeProfileModal(); showToast('내 프로필이 저장되었습니다.'); }, 700);
+}
+
+function resetProfile() {
+  if (!confirm('입력한 모든 프로필 정보를 비울까요?')) return;
+  PROFILE = {
+    name: '', email: '', school: '',
+    major: '', grade: '', gpa: '', gpaMax: 4.5,
+    courses: [],
+    language: { toeic:'', toeicSpeaking:'', opic:'', other:'', businessEnglish:false },
+    certificates: [],
+    experience: []
+  };
+  persistProfile();
+  renderProfileSideCard();
+  openProfileModal(); // reload form
+  showToast('프로필이 초기화되었습니다.');
+}
+
+/* ---------- Language / Cert utility helpers for evaluation ---------- */
+function parseToeic() {
+  const v = String(PROFILE.language.toeic || '').match(/\d{2,4}/);
+  return v ? parseInt(v[0], 10) : null;
+}
+function parseToeicSpeaking() {
+  const v = String(PROFILE.language.toeicSpeaking || '').match(/\d{2,3}/);
+  return v ? parseInt(v[0], 10) : null;
+}
+function parseOpicLevel() {
+  const map = { 'NL':1,'NM':2,'NH':3,'IL':4,'IM1':5,'IM2':6,'IM3':7,'IH':8,'AL':9 };
+  const raw = String(PROFILE.language.opic || '').toUpperCase().replace(/\s/g,'');
+  for (const k of Object.keys(map)) { if (raw.includes(k)) return { level: map[k], code: k }; }
+  return null;
+}
+function hasBusinessEnglish() { return !!PROFILE.language.businessEnglish; }
+function hasCertificate(nameFragment) {
+  const list = (PROFILE.certificates || []).map(c => c.toLowerCase());
+  const q = nameFragment.toLowerCase();
+  return list.some(c => c.includes(q) || q.includes(c));
+}
+function hasExperience(fragment) {
+  const list = (PROFILE.experience || []).map(c => c.toLowerCase());
+  const q = fragment.toLowerCase();
+  return list.some(c => c.includes(q) || q.includes(c));
+}
+function hasCourse(fragment) {
+  const list = (PROFILE.courses || []).map(c => c.toLowerCase());
+  const q = fragment.toLowerCase();
+  return list.some(c => c.includes(q) || q.includes(c));
+}
+function isElectricalMajor() {
+  const m = String(PROFILE.major || '').toLowerCase();
+  return /전자|전기|반도체|electronic|electrical/.test(m);
+}
+function isTechMajor() {
+  const m = String(PROFILE.major || '').toLowerCase();
+  return /전자|전기|기계|컴퓨터|정보|반도체|화공|신소재|물리|산업|electronic|electrical|mechanical|computer|physic|chem/.test(m);
+}
+
+/* ============================================================
+   Screen Navigation
+   ============================================================ */
+function goScreen(step) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + step).classList.add('active');
+  document.querySelectorAll('#crumbs .crumb').forEach(c => {
+    c.classList.toggle('active', Number(c.dataset.step) === step);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (step === 4) renderCompareScreen();
+  if (step === 1 || step === 3) renderCompleteness();
+}
+
+function backToJobs() {
+  if (currentCompany) {
+    renderCompanyScreen(currentCompany);
+    goScreen(2);
+  } else {
+    goScreen(1);
+  }
+}
+
+function onSearch(e) {
+  e.preventDefault();
+  const val = document.getElementById('searchInput').value.trim();
+  if (!val) { showToast('기업명을 입력해주세요'); return; }
+  openCompany(val);
+}
+
+function openCompany(name) {
+  // 데이터 로드 전 클릭 방어 — 로드 완료 후 자동 진입
+  if (!companyDataReady) {
+    showToast('기업 데이터를 불러오는 중입니다. 잠시만 기다려주세요.');
+    loadCompanyData()
+      .then(() => { renderTabs(); openCompany(name); })
+      .catch(err => showDataError(err));
+    return;
+  }
+  const key = normalizeName(name);
+  currentCompany = key;
+  renderCompanyScreen(key);
+  goScreen(2);
+}
+
+function normalizeName(name) {
+  const n = name.replace(/\s+/g,'').toLowerCase();
+  const aliases = {
+    'skhynix':'SK하이닉스','sk하이닉스':'SK하이닉스',
+    '한국전력공사':'한국전력공사','한전':'한국전력공사','kepco':'한국전력공사',
+    'asml':'ASML','tsmc':'TSMC','nvidia':'NVIDIA','엔비디아':'NVIDIA',
+    'apple':'Apple','애플':'Apple','microsoft':'Microsoft','ms':'Microsoft',
+    'google':'Google','구글':'Google','tesla':'Tesla','테슬라':'Tesla',
+    '삼성전자':'삼성전자','samsungelectronics':'삼성전자',
+    'lg전자':'LG전자','현대자동차':'현대자동차','현대차':'현대자동차'
+  };
+  if (aliases[n]) return aliases[n];
+  return name.trim();
+}
+
+/* ============================================================
+   Screen 1 : Directory
+   ============================================================ */
+function renderTabs() {
+  const totalCounts = {
+    'ko-large': KO_LARGE.length, 'ko-mid': KO_MID.length,
+    'ko-pub': KO_PUB.length,
+    'global': GLOBAL_INDUSTRIES.reduce((a,g)=>a+g.items.length, 0)
+  };
+  document.getElementById('tabs').innerHTML = CATEGORIES.map((c, i) => `
+    <button class="tab ${i===0?'active':''}" data-tab="${c.id}" onclick="switchTab('${c.id}')">
+      <span>${c.icon}</span> ${c.label}
+      <span class="count">${totalCounts[c.id]}</span>
+    </button>
+  `).join('');
+
+  const panels = CATEGORIES.map((c, i) => {
+    let html = '';
+    if (c.id === 'ko-large') html = renderGrid(KO_LARGE);
+    else if (c.id === 'ko-mid') html = renderGrid(KO_MID);
+    else if (c.id === 'ko-pub') html = renderGrid(KO_PUB);
+    else if (c.id === 'global') {
+      html = GLOBAL_INDUSTRIES.map(g => `
+        <div class="group-title">${g.group}</div>
+        ${renderGrid(g.items)}
+      `).join('');
+    }
+    return `<div class="tab-panel ${i===0?'active':''}" id="panel-${c.id}">${html}</div>`;
+  }).join('');
+  document.getElementById('tabPanels').innerHTML = panels;
+}
+
+function renderGrid(list) {
+  return `<div class="company-grid">${list.map((c, i) => {
+    const palette = LOGO_PALETTE[i % LOGO_PALETTE.length];
+    const grad = `linear-gradient(135deg, ${palette[0]}, ${palette[1]})`;
+    const safeName = c.name.replace(/'/g,"\\'");
+    return `
+      <div class="comp-card" data-company="${escapeHTML(c.name)}" onclick="handleSelectCompany('${safeName}')">
+        <div class="comp-logo" style="background:${grad};">${c.short}</div>
+        <div class="comp-meta">
+          <h5>${c.name}</h5>
+          <p>${c.tag}</p>
+        </div>
+      </div>
+    `;
+  }).join('')}</div>`;
+}
+
+/* 통합 클릭 핸들러 (예외 없이 모든 카드) */
+function handleSelectCompany(name) { openCompany(name); }
+
+function switchTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === id));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + id));
+}
+
+/* ============================================================
+   Screen 2 : Company Profile (샘플 + 폴백 통합)
+   ============================================================ */
+function renderCompanyScreen(companyKey) {
+  const c = SAMPLES[companyKey] || fallbackSampleFor(companyKey);
+  const grad = `linear-gradient(135deg, ${c.logoGrad[0]}, ${c.logoGrad[1]})`;
+
+  document.getElementById('companyHeader').innerHTML = `
+    <div class="company-logo-lg" style="background:${grad};">${c.logoShort}</div>
+    <div class="company-info">
+      <h2>${c.company}<span class="cat-pill">${c.category}</span></h2>
+      <p>${c.industry}</p>
+      <div class="chip-row" style="margin-top:8px;">
+        <span class="chip blue">${c.isFallback ? '기본 템플릿 데이터' : '공식 채용 홈페이지 연동'}</span>
+        <span class="chip">${c.jobs.length}개 직무 카테고리</span>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('fallbackBanner').innerHTML = c.isFallback ? `
+    <div class="fallback-banner">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+      상세 데이터가 아직 정식 등록되지 않아, 카테고리(<b>${c.category}</b>) 기반 <b>기본 템플릿</b>으로 표시됩니다.
+    </div>
+  ` : '';
+
+  const grid = document.getElementById('jobGrid');
+  const safeCompanyKey = companyKey.replace(/'/g,"\\'");
+  grid.innerHTML = c.jobs.map(j => {
+    const cmpKey = compareKeyOf(companyKey, j.key);
+    const safeCmpKey = cmpKey.replace(/'/g,"\\'");
+    const pinned = COMPARE_SET.has(cmpKey);
+    return `
+    <div class="job-card ${j.sample?'highlight':''} ${pinned?'pinned':''}" onclick="openDetail('${safeCompanyKey}','${j.key}')">
+      <div class="cat">${j.cat}</div>
+      <h4>${j.title}</h4>
+      <p>${j.desc}</p>
+      <span class="cta">상세 분석 보기 →</span>
+      <div class="comp-actions">
+        <button class="pin-btn" onclick="togglePin(event, '${safeCmpKey}')" title="비교 목록에 추가">
+          ${pinned
+            ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>'
+            : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>'}
+        </button>
+      </div>
+    </div>
+  `;
+  }).join('');
+}
+
+/* ============================================================
+   Screen 3 : Detail Dashboard
+   ============================================================ */
+function tagClass(type) {
+  const t = String(type).replace(/\s+/g,'');
+  if (t === '필수') return 'tag-req';
+  if (t === '우대') return 'tag-pref';
+  if (t === '가산점') return 'tag-bonus';
+  if (t === '참고') return 'tag-ref';
+  if (t === 'AI분석') return 'tag-ai';
+  if (t === '권장') return 'tag-pref';
+  if (t === 'AI분석우대' || t.startsWith('AI')) return 'tag-ai';
+  return 'tag-ref';
+}
+function tagLabel(type) {
+  const t = String(type).replace(/\s+/g,'');
+  if (t === 'AI분석') return '[AI 분석]';
+  if (t === '가산점') return '[가산점(공기업)]';
+  return `[${type}]`;
+}
+
+function openDetail(companyName, jobKey) {
+  currentCompany = companyName;
+  currentJobKey = jobKey;
+  compareMode = false;
+  document.getElementById('toggleWrap').classList.remove('active');
+
+  const key = `${companyName}__${jobKey}`;
+  currentDetail = DETAIL_DATA[key] || fallbackDetailFor(companyName, jobKey);
+  renderDetail();
+  goScreen(3);
+}
+
+/* Evaluation logic — 프로필 값을 동적으로 참조 (샘플 3사도 저장된 프로필 기반) */
+function evaluate(sectionKey, itemName) {
+  const D = currentDetail;
+  if (!D) return { s:'yellow', m:'데이터 확인 필요' };
+
+  const isGlobal = D.category === '해외 · 글로벌';
+  const isPublic = D.category === '공기업';
+  const toeic = parseToeic();
+  const tos   = parseToeicSpeaking();
+  const opic  = parseOpicLevel();
+  const biz   = hasBusinessEnglish();
+  const majorLabel = `${PROFILE.major || '미입력'}${PROFILE.grade ? ' '+PROFILE.grade : ''}`;
+
+  // ---- 학력 ----
+  if (sectionKey === 'education') {
+    if (!PROFILE.major) return { s:'yellow', m:'전공 정보 미입력 — 프로필에서 전공을 입력해주세요' };
+    if (isPublic && /전기/i.test(D.job) && !isElectricalMajor()) {
+      return { s:'red', m:`현재 전공(<b>${escapeHTML(PROFILE.major)}</b>)이 전기·전자 계열이 아님 — 전공 제한 확인 필요` };
+    }
+    if (isTechMajor()) return { s:'green', m:`<b>${escapeHTML(majorLabel)}</b> — 이공계 지원 자격 충족` };
+    return { s:'yellow', m:`현재 전공(<b>${escapeHTML(PROFILE.major)}</b>) 관련성 확인 필요 — 전공 제한 여부는 공고 원문 확인` };
+  }
+
+  // ---- 어학 컷오프 ----
+  if (sectionKey === 'cutoff') {
+    const detail = (D.documents && D.documents.cutoff && D.documents.cutoff.detail) || '';
+    const key = `${D.company}__${jobKeyOfDetail(D)}`;
+
+    if (key === 'SK하이닉스__process') {
+      // OPIc IM2 또는 토스 130+
+      if ((opic && opic.level >= 6) || (tos && tos >= 130)) return { s:'green', m:'보유한 스피킹 성적이 요구 컷을 충족' };
+      if (tos && tos < 130)  return { s:'yellow', m:`토익스피킹 <b>${tos}</b> — 컷(130) 미달, 재응시 필요` };
+      if (opic && opic.level < 6) return { s:'yellow', m:`OPIc <b>${opic.code}</b> — IM2 미달, 재응시 필요` };
+      return { s:'yellow', m:'스피킹 성적(OPIc IM2 / 토스 130+) 미보유 — 시험 응시 필요' };
+    }
+    if (key === '한국전력공사__elec') {
+      if (toeic && toeic >= 700) return { s:'green', m:`TOEIC <b>${toeic}</b> — 컷(700) 충족` };
+      if (toeic && toeic < 700)  return { s:'red',   m:`TOEIC <b>${toeic}</b> — 컷(700) 미달, 재응시 필요` };
+      return { s:'yellow', m:'TOEIC 700+ 미보유 — 필기 응시 조건 확인 필요' };
+    }
+    if (key === 'ASML__cse') {
+      if (biz) return { s:'green', m:'비즈니스 영어 회화 능통 — 인터뷰 대응 가능' };
+      if ((opic && opic.level >= 8) || (toeic && toeic >= 900)) return { s:'yellow', m:'점수는 상위권이나 회화 실증 필요 — 인터뷰 대비 스피킹 훈련 권장' };
+      return { s:'red', m:'비즈니스 영어 회화 미확인 — <b>영어 스피킹 강화가 가장 시급</b>' };
+    }
+    // fallback: detail 문자열 기반 판정
+    if (/영어|비즈니스|English|Fluent/i.test(detail)) {
+      if (biz) return { s:'green', m:'비즈니스 영어 회화 능통 — 조건 충족' };
+      if (toeic && toeic >= 850) return { s:'yellow', m:`TOEIC ${toeic} — 점수는 양호하나 회화 실증 필요` };
+      return { s:'red', m:'영어 회화 능통 조건 대비 스피킹 실증 자료 부족' };
+    }
+    // 일반 TOEIC 점수 컷 추정
+    const m = detail.match(/(\d{3,4})/);
+    if (m) {
+      const need = parseInt(m[1], 10);
+      if (toeic && toeic >= need) return { s:'green', m:`TOEIC <b>${toeic}</b> — 요구(${need}) 충족` };
+      if (toeic && toeic < need)  return { s:'yellow', m:`TOEIC <b>${toeic}</b> — 요구(${need}) 미달` };
+    }
+    if (opic || tos || toeic) return { s:'yellow', m:'어학 성적 확인 완료 — 구체 컷 여부는 공고 원문 확인' };
+    return { s:'yellow', m:'공인 어학 성적 미입력 — 프로필에서 성적을 추가해주세요' };
+  }
+
+  // ---- 필수 면허 ----
+  if (sectionKey === 'license') {
+    const detail = (D.documents && D.documents.license && D.documents.license.detail) || '';
+    if (/없음/.test(detail)) return { s:'green', m:'별도 필수 면허 없음' };
+    return { s:'yellow', m:'필수 면허 요건 확인 필요 — 관련 자격증 취득으로 경쟁력 확보 권장' };
+  }
+
+  // ---- 자격증 ----
+  if (sectionKey === 'cert') {
+    const name = String(itemName || '');
+    if (hasCertificate(name)) return { s:'green', m:`<b>${escapeHTML(name)}</b> 보유 — 요건 충족` };
+
+    // 세부 키워드 매칭
+    if (/전기기사/.test(name)) {
+      if (hasCertificate('전기기사')) return { s:'green', m:'전기기사 보유 — 서류 가점 확보' };
+      return { s:'red', m:'미보유 — <b>서류 통과·가점에 결정적</b>, 최우선 준비 대상' };
+    }
+    if (/전기공사기사/.test(name)) {
+      return hasCertificate('전기공사기사')
+        ? { s:'green', m:'전기공사기사 보유 — 서류 가점 확보' }
+        : { s:'red', m:'미보유 — 전기기사와 병행 취득 시 최대 가점 확보' };
+    }
+    if (/한국사/.test(name)) {
+      return hasCertificate('한국사')
+        ? { s:'green', m:'한국사 자격 보유 — 공기업 공통 요건 충족' }
+        : { s:'red', m:'미보유 — 상시 응시 가능. 공기업 공통 준비 항목' };
+    }
+    if (/정보처리기사/.test(name)) {
+      return hasCertificate('정보처리기사')
+        ? { s:'green', m:'정보처리기사 보유 — 요건 충족' }
+        : { s:'yellow', m:'미보유 — 참고/우대 항목이나 데이터 분석 어필 시 유리' };
+    }
+    if (/반도체.*교육/.test(name)) {
+      if (hasCertificate('반도체') || hasExperience('반도체')) return { s:'green', m:'반도체 관련 이수·경험 보유 — 우대 조건 충족' };
+      return { s:'yellow', m:'미보유 — K-반도체 아카데미, KAIST 반도체 과정 등 이수 권장' };
+    }
+    if (/해외|교환|인턴/.test(name)) {
+      if (hasExperience('교환') || hasExperience('해외') || hasExperience('인턴')) return { s:'green', m:'관련 경험 보유 — 우대 조건 충족' };
+      return { s:'red', m:'미보유 — 학내 프로그램·해외 인턴 등으로 대체 경험 확보 권장' };
+    }
+    if (/PMP|Sigma/.test(name)) return { s:'yellow', m:'미보유 — 신입 필수 아님, 참고 사항' };
+    if (/기사/.test(name))       return { s:'yellow', m:`미보유 — <b>${escapeHTML(name)}</b>는 서류 경쟁력 확보에 유리` };
+    if (/어학/.test(name))       return (toeic || tos || opic) ? { s:'yellow', m:'어학 성적 보유 — 구체 요건 확인' } : { s:'yellow', m:'공인 어학 성적 미입력 — 프로필에서 추가해주세요' };
+    if (/자격증/.test(name))     return { s:'yellow', m:'현재 미보유 — 직무 관련 자격증 1개 이상 확보 권장' };
+    return { s:'yellow', m:'현재 상태 확인 필요 — 이력서에 관련 경험 명시 권장' };
+  }
+
+  // ---- 기술 스택 ----
+  if (sectionKey === 'stack') {
+    const name = String(itemName || '');
+    // 전공 과목 매칭
+    if (/전력공학|전기기기|제어공학/.test(name)) {
+      if (hasCourse(name.replace(/\/.*/,''))) return { s:'green', m:`<b>${escapeHTML(name)}</b> 이수 — 전공 요건 충족` };
+      if (isElectricalMajor()) return { s:'yellow', m:'전공 계열이나 심화 이수 필요 — 학부 강의/인강으로 보완' };
+      return { s:'red', m:'미이수 — 전공 심화 필요' };
+    }
+    if (/회로이론/.test(name)) {
+      if (hasCourse('회로')) return { s:'green', m:'회로이론 이수 — 전공지식 충족' };
+      if (isElectricalMajor()) return { s:'green', m:'전자·전기 계열 기본 이수 과목 — 전공지식 충족' };
+      return { s:'yellow', m:'미이수 — 학부 강의/인강으로 보완 권장' };
+    }
+    if (/PSCAD|PSSE|시뮬레이션/.test(name)) return { s:'yellow', m:'참고 항목 — 캡스톤 시뮬레이션 툴 경험이 있다면 이력에 명시' };
+    if (/Minitab|JMP|SAS|SPC/.test(name)) return { s:'yellow', m:`<b>${escapeHTML(name)}</b> — 통계 툴 경험 확보 권장 (실습 또는 교내 과정)` };
+    if (/Python|Pandas|데이터|분석/i.test(name)) {
+      if (hasExperience('데이터') || hasExperience('python') || hasCourse('python')) return { s:'green', m:'Python·데이터 분석 경험 보유' };
+      return { s:'yellow', m:'기초 학습 수준 예상 — 캡스톤에서 데이터 분석 파트 실증 경험 확보 권장' };
+    }
+    if (/광학|진공|반도체 장비/.test(name)) {
+      if (hasCourse('반도체') || hasExperience('반도체')) return { s:'green', m:'반도체 관련 경험 보유 — 도메인 이해 확보' };
+      return { s:'yellow', m:'심화 도메인 — 별도 학습 또는 사내 트레이닝으로 보완' };
+    }
+    if (/Windows|Linux|진단/.test(name)) return { s:'green', m:'전공 실습 수준 대응 가능 — 이력서에 사용 경험 명시' };
+    if (/ServiceNow|SAP/.test(name)) return { s:'yellow', m:'참고 항목 — 입사 후 습득 가능' };
+    if (/전공|기초|MS Office|문서/.test(name)) return { s:'green', m:'전공 커리큘럼상 대응 가능 — 이력서에 관련 프로젝트 명시 권장' };
+    if (/정밀 기계/.test(name)) return { s:'yellow', m:'캡스톤 주제와 연결하여 장비·계측 경험 스토리텔링' };
+    return { s:'yellow', m:'심화 도메인 — 별도 학습 또는 사내 트레이닝으로 보완 가능' };
+  }
+
+  // ---- 요구 역량 ----
+  if (sectionKey === 'comp') {
+    const name = String(itemName || '');
+    if (/커뮤니케이션|영어|소통/.test(name)) {
+      if (isGlobal || /영어|글로벌/.test(name)) {
+        if (biz) return { s:'green', m:'비즈니스 영어 회화 능통 — 요건 충족' };
+        if ((opic && opic.level >= 8) || (toeic && toeic >= 900)) return { s:'yellow', m:'점수 상위이나 실전 회화 실증 필요' };
+        return { s:'red', m:'영어 커뮤니케이션 실증 자료 부족 — 인터뷰 대비 스피킹 훈련 필수' };
+      }
+      if (hasExperience('프로젝트') || hasExperience('캡스톤') || hasExperience('팀')) return { s:'green', m:'팀 프로젝트 협업 경험 보유 — 사례 중심으로 정리' };
+      return { s:'yellow', m:'협업 경험 추가 정리 권장 — STAR 구조로 이력서 작성' };
+    }
+    if (/문제해결|Ownership|분석/.test(name)) {
+      if (hasExperience('캡스톤') || hasExperience('프로젝트')) return { s:'yellow', m:'캡스톤 프로젝트를 STAR 구조로 정리하여 문제 정의·해결 경험 어필' };
+      return { s:'yellow', m:'관련 프로젝트 경험 추가 확보 및 STAR 구조 정리 권장' };
+    }
+    if (/NCS/.test(name)) {
+      if (hasCertificate('NCS') || hasExperience('NCS')) return { s:'green', m:'NCS 학습 이력 보유' };
+      return { s:'yellow', m:'전공 지식은 충분 — NCS 모듈형 문제 유형 별도 학습 필요' };
+    }
+    if (/현장|적응/.test(name)) return { s:'yellow', m:'순환근무·지방 배치에 대한 태도를 자소서·면접에서 정리해둘 것' };
+    if (/전공|지식/.test(name)) return isTechMajor() ? { s:'green', m:'전공 배경 충족 — 심화 학습 병행 권장' } : { s:'yellow', m:'전공 심화 학습 필요' };
+    return { s:'yellow', m:'관련 경험 확인 필요 — 이력서 STAR 구조 정리 권장' };
+  }
+
+  return { s:'yellow', m:'추가 확인 필요' };
+}
+
+function jobKeyOfDetail(D) {
+  // Reverse lookup for job key from company jobs
+  const s = SAMPLES[D.company];
+  if (s) {
+    const j = s.jobs.find(x => x.title === D.job);
+    if (j) return j.key;
+  }
+  const fb = fallbackJobsFor(D.category);
+  const j2 = fb.find(x => x.title === D.job);
+  return j2 ? j2.key : 'default';
+}
+
+function renderDetail() {
+  const D = currentDetail;
+  if (!D) return;
+
+  document.getElementById('detailTitle').innerHTML = `
+    ${D.company}
+    <span class="job-tag">${D.job}</span>
+    ${D.dday ? `
+      <span class="dday-tag ${D.dday.type||''}">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        ${D.dday.label}
+      </span>` : ''}
+  `;
+  document.getElementById('srcLabel').textContent = `출처: ${D.source}${D.dday ? ' · ' + D.dday.note : ''}`;
+
+  const main = document.getElementById('detailMain');
+  let html = '';
+
+  if (D.isFallback) {
+    html += `
+      <div class="fallback-banner" style="margin-bottom:16px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        본 페이지는 <b>${D.category}</b> 카테고리 <b>기본 템플릿</b>으로 렌더링되었습니다. 실제 채용 요구사항은 공식 채용 홈페이지를 함께 확인해주세요.
+      </div>
+    `;
+  }
+
+  // Section 1
+  html += `
+    <div class="section-block fade-swap">
+      <div class="block-head">
+        <div class="block-icon">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <h3>서류 및 자격 요건</h3>
+        <span class="block-sub">공식 채용 공고 기준</span>
+      </div>
+      ${renderReqCard('학력', D.documents.education, 'education')}
+      ${renderReqCard('어학 컷오프', D.documents.cutoff, 'cutoff')}
+      ${D.documents.license ? renderReqCard('필수 면허', D.documents.license, 'license') : ''}
+      ${(D.documents.certificate||[]).map(c => renderReqCard(`자격증 · ${c.name}`, c, 'cert', c.name)).join('')}
+    </div>
+  `;
+
+  // Section 2
+  html += `
+    <div class="section-block fade-swap">
+      <div class="block-head">
+        <div class="block-icon" style="background:var(--purple-soft);color:var(--purple);">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <h3>기술 스택 / 실무 도구</h3>
+        <span class="block-sub">직무별 툴·언어·장비</span>
+      </div>
+      <div class="req-body" style="margin-bottom:12px;">${D.techStack.summary}</div>
+      ${D.techStack.tools.map(t => renderStackRow(t)).join('')}
+    </div>
+  `;
+
+  // Section 2.5
+  html += `
+    <div class="section-block fade-swap">
+      <div class="block-head">
+        <div class="block-icon" style="background:#fff7ed;color:#f97316;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <h3>요구 역량</h3>
+        <span class="block-sub">공고 + AI 분석</span>
+      </div>
+      ${D.competency.map(c => renderReqCard(c.name, c, 'comp', c.name)).join('')}
+    </div>
+  `;
+
+  // Section 3
+  html += `
+    <div class="section-block fade-swap">
+      <div class="block-head">
+        <div class="block-icon" style="background:#fef2f2;color:#ef4444;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <h3>자소서 · 지원동기 리소스</h3>
+        <span class="block-sub">최근 이슈 · 캐시카우 · 경쟁사</span>
+      </div>
+      <div class="kv-table">
+        <div class="k">📰 최근 이슈 (3~6개월)</div>
+        <div class="v"><ul style="margin:0;padding-left:18px;">${D.insight.news.map(n => `<li>${n}</li>`).join('')}</ul></div>
+        <div class="k">💰 캐시카우 제품</div>
+        <div class="v"><div class="chip-row">${D.insight.products.map(p => `<span class="chip blue">${p}</span>`).join('')}</div></div>
+        <div class="k">⚔️ 주요 경쟁사</div>
+        <div class="v"><div class="chip-row">${D.insight.competitors.map(p => `<span class="chip">${p}</span>`).join('')}</div></div>
+      </div>
+    </div>
+  `;
+
+  // Section 4
+  const w = D.workCondition;
+  html += `
+    <div class="section-block fade-swap">
+      <div class="block-head">
+        <div class="block-icon" style="background:#ecfdf5;color:#059669;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <h3>근무 여건</h3>
+        <span class="block-sub">근무지 · 교대 · 복지</span>
+      </div>
+      <div class="kv-table">
+        <div class="k">📍 근무지</div><div class="v">${w.location}</div>
+        <div class="k">🕒 교대 여부</div><div class="v">${w.shift}</div>
+        <div class="k">🚌 통근</div><div class="v">${w.commute}</div>
+        <div class="k">🏠 기숙사 / 사택</div><div class="v">${w.dorm}</div>
+        <div class="k">🎁 기타 복지</div><div class="v">${w.etc}</div>
+      </div>
+    </div>
+  `;
+
+  // Section 5
+  html += `
+    <div class="section-block fade-swap">
+      <div class="block-head">
+        <div class="block-icon" style="background:#eff6ff;color:#2563eb;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <h3>전형 일정 (Timeline)</h3>
+        <span class="block-sub">단계별 D-Day</span>
+      </div>
+      <div class="timeline">
+        ${D.timeline.map(t => `
+          <div class="tl-item ${t.state}">
+            <div class="tl-title">${t.title}</div>
+            <div class="tl-desc">${t.desc}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  main.innerHTML = html;
+  updateSummary();
+  try { renderMatchCard(); } catch(e) {}
+}
+
+function renderReqCard(title, obj, sectionKey, itemName) {
+  let statusClass = '', msgHTML = '';
+  if (compareMode) {
+    const ev = evaluate(sectionKey, itemName || null);
+    statusClass = `compared status-${ev.s}`;
+    const emoji = ev.s === 'green' ? '🟢' : ev.s === 'yellow' ? '🟡' : '🔴';
+    msgHTML = `
+      <div class="compare-status">
+        <span class="status-emoji">${emoji}</span>
+        <div>${ev.m}</div>
+      </div>
+    `;
+  }
+  return `
+    <div class="req-card ${statusClass}">
+      <div class="req-head">
+        <span class="req-title">${title}</span>
+        <span class="req-tag ${tagClass(obj.type)}">${tagLabel(obj.type)}</span>
+      </div>
+      <div class="req-body">${obj.detail}</div>
+      ${msgHTML}
+    </div>
+  `;
+}
+
+function renderStackRow(tool) {
+  let statusClass = '', msgHTML = '';
+  if (compareMode) {
+    const ev = evaluate('stack', tool.name);
+    statusClass = `compared status-${ev.s}`;
+    const emoji = ev.s === 'green' ? '🟢' : ev.s === 'yellow' ? '🟡' : '🔴';
+    msgHTML = `
+      <div class="compare-status">
+        <span class="status-emoji">${emoji}</span>
+        <div>${ev.m}</div>
+      </div>
+    `;
+  }
+  return `
+    <div class="req-card ${statusClass}">
+      <div class="req-head">
+        <span class="req-title">${tool.name}</span>
+        <span class="req-tag ${tagClass(tool.level)}">${tagLabel(tool.level)}</span>
+        <span class="chip" style="margin-left:auto;">${tool.category}</span>
+      </div>
+      ${msgHTML}
+    </div>
+  `;
+}
+
+function updateSummary() {
+  const summary = document.getElementById('summaryCard');
+  if (!compareMode) { summary.style.display = 'none'; return; }
+  const nodes = document.querySelectorAll('#detailMain .req-card.compared');
+  let g=0, y=0, r=0;
+  nodes.forEach(n => {
+    if (n.classList.contains('status-green')) g++;
+    else if (n.classList.contains('status-yellow')) y++;
+    else if (n.classList.contains('status-red')) r++;
+  });
+  summary.style.display = 'block';
+  document.getElementById('cntGreen').textContent = g;
+  document.getElementById('cntYellow').textContent = y;
+  document.getElementById('cntRed').textContent = r;
+}
+
+function toggleCompare() {
+  compareMode = !compareMode;
+  document.getElementById('toggleWrap').classList.toggle('active', compareMode);
+  renderDetail();
+  if (compareMode) showToast('내 프로필 기준으로 요구사항을 비교했습니다.');
+}
+
+/* Toast */
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.opacity = '1';
+  t.style.transform = 'translateX(-50%) translateY(0)';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    t.style.opacity = '0';
+    t.style.transform = 'translateX(-50%) translateY(20px)';
+  }, 2600);
+}
+
+/* ============================================================
+   Bootstrap : 데이터 로드 후 초기 렌더
+   ============================================================ */
+function showDataLoading() {
+  const panels = document.getElementById('tabPanels');
+  if (panels) {
+    panels.innerHTML = `
+      <div class="tab-panel active" id="panel-loading" style="padding:32px 8px;text-align:center;color:var(--text-mute);">
+        <div style="font-size:28px;margin-bottom:10px;">⏳</div>
+        <div style="font-weight:700;color:var(--text-sub);">기업 데이터를 불러오는 중입니다…</div>
+      </div>
+    `;
+  }
+}
+
+function showDataError(err) {
+  const panels = document.getElementById('tabPanels');
+  if (panels) {
+    panels.innerHTML = `
+      <div class="tab-panel active" id="panel-error" style="padding:32px 8px;text-align:center;">
+        <div style="font-size:28px;margin-bottom:10px;">⚠️</div>
+        <div style="font-weight:700;color:var(--text);margin-bottom:6px;">기업 데이터를 불러오지 못했습니다</div>
+        <div style="color:var(--text-mute);font-size:13.5px;margin-bottom:14px;">
+          data/companies.json 파일을 확인해주세요. (${escapeHTML(String(err && err.message || err))})
+        </div>
+        <button class="btn btn-primary" onclick="bootstrapApp()">다시 시도</button>
+      </div>
+    `;
+  }
+  console.error('[JOB INSIGHT] 데이터 로드 실패:', err);
+}
+
+async function bootstrapApp() {
+  showDataLoading();
+  try {
+    await loadCompanyData();
+    renderTabs();
+    // 데이터 로드 이전에 열린 화면이 있다면 다시 렌더
+    if (currentCompany) renderCompanyScreen(currentCompany);
+  } catch (err) {
+    showDataError(err);
+  }
+}
+
+/* ============================================================
+   Report Bridge — js/report.js 에서 앱 상태를 읽기 위한 접근자
+   (currentDetail 등은 let 선언이라 전역 객체에 노출되지 않음)
+   ============================================================ */
+window.getCurrentDetail = () => currentDetail;
+window.getProfile       = () => PROFILE;
+window.getCompareKeys   = () => Array.from(COMPARE_SET);
+window.parseCompareKey  = parseCompareKey;
+window.buildDetailFor   = buildDetailFor;
+window.computeMatchScore = computeMatchScore;
+window.matchLabel       = matchLabel;
+window.showToast        = showToast;
+
+/* 특정 detail 객체를 기준으로 evaluate() 실행 (현재 화면 상태를 훼손하지 않음) */
+window.evaluateFor = function (detailObj, sectionKey, itemName) {
+  const savedDetail = currentDetail;
+  const savedMode = compareMode;
+  currentDetail = detailObj;
+  compareMode = true;
+  try {
+    return evaluate(sectionKey, itemName);
+  } finally {
+    currentDetail = savedDetail;
+    compareMode = savedMode;
+  }
+};
+
+window.addEventListener('DOMContentLoaded', () => {
+  renderProfileSideCard();
+  const searchEl = document.getElementById('searchInput');
+  if (searchEl) searchEl.focus();
+  bootstrapApp();
+});
+</script>
+
+<!-- HTML 리포트 다운로드 모듈 -->
+<script src="js/report.js"></script>
+
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>

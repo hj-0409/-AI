@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><title>dump</title>
+<style>html,body{margin:0}#f{position:absolute;left:-9999px;width:1200px;height:800px;border:0}</style>
+</head>
+<body>
+<iframe id="f" src="index.html"></iframe>
+<div id="mount"></div>
+<script>
+const f = document.getElementById('f');
+f.addEventListener('load', () => {
+  setTimeout(() => {
+    const w = f.contentWindow;
+    let captured = null;
+    const oc = w.URL.createObjectURL.bind(w.URL);
+    w.URL.createObjectURL = b => { captured = b; return oc(b); };
+    w.HTMLAnchorElement.prototype.click = function () {};
+    w.openCompany('SK하이닉스');
+    setTimeout(() => {
+      w.openDetail('SK하이닉스', 'process');
+      setTimeout(async () => {
+        w.downloadDetailReport();
+        const txt = await captured.text();
+        // 리포트의 style + body 내용을 현재 문서에 이식해 육안 확인
+        const styleMatch = txt.match(/<style>([\s\S]*?)<\/style>/);
+        const bodyMatch = txt.match(/<body>([\s\S]*?)<\/body>/);
+        const st = document.createElement('style');
+        st.textContent = styleMatch ? styleMatch[1] : '';
+        document.head.appendChild(st);
+        document.getElementById('mount').innerHTML = bodyMatch ? bodyMatch[1] : '(추출 실패)';
+        document.getElementById('f').remove();
+      }, 600);
+    }, 600);
+  }, 2200);
+});
+</script>
+</body></html>
