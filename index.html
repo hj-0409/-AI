@@ -1497,13 +1497,37 @@ async function fetchCompanyData() {
   if (!res.ok) throw new Error(`companies.json 로드 실패 (HTTP ${res.status})`);
   const json = await res.json();
 
-  COMPANY_DATA      = json;
-  KO_LARGE          = Array.isArray(json.KO_LARGE) ? json.KO_LARGE : [];
-  KO_MID            = Array.isArray(json.KO_MID) ? json.KO_MID : [];
-  KO_PUB            = Array.isArray(json.KO_PUB) ? json.KO_PUB : [];
-  GLOBAL_INDUSTRIES = Array.isArray(json.GLOBAL_INDUSTRIES) ? json.GLOBAL_INDUSTRIES : [];
-  SAMPLES           = json.SAMPLES || {};
-  DETAIL_DATA       = json.DETAIL_DATA || {};
+  COMPANY_DATA = json;
+
+  if (Array.isArray(json)) {
+    const normalized = json.map(c => ({
+      name: c.name || '채용 기업',
+      short: c.short || (c.name ? c.name.slice(0, 2).toUpperCase() : 'CO'),
+      tag: c.tag || c.industry || '채용 진행 중',
+      category: c.category || '국내 대기업',
+      ...c
+    }));
+
+    KO_LARGE = normalized.filter(c => c.category === '국내 대기업');
+    KO_MID = normalized.filter(c => c.category === '중견기업');
+    KO_PUB = normalized.filter(c => c.category === '공기업');
+    
+    const globals = normalized.filter(c => c.category === '해외 · 글로벌' || c.category === '글로벌');
+    GLOBAL_INDUSTRIES = globals.length ? [{ group: '글로벌 테크', items: globals }] : [];
+    
+    SAMPLES = {};
+    DETAIL_DATA = {};
+    normalized.forEach(c => {
+      if (c.jobs) SAMPLES[c.name] = c;
+    });
+  } else {
+    KO_LARGE          = Array.isArray(json.KO_LARGE) ? json.KO_LARGE : [];
+    KO_MID            = Array.isArray(json.KO_MID) ? json.KO_MID : [];
+    KO_PUB            = Array.isArray(json.KO_PUB) ? json.KO_PUB : [];
+    GLOBAL_INDUSTRIES = Array.isArray(json.GLOBAL_INDUSTRIES) ? json.GLOBAL_INDUSTRIES : [];
+    SAMPLES           = json.SAMPLES || {};
+    DETAIL_DATA       = json.DETAIL_DATA || {};
+  }
 
   buildCategoryIndex();
   companyDataReady = true;
