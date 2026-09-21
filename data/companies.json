@@ -5,110 +5,390 @@
     "description": "JOB INSIGHT 기업 디렉터리 및 직무 상세 데이터 (index.html에서 fetch로 비동기 로드)"
   },
   "KO_LARGE": [
-    { "name": "삼성전자", "short": "삼", "tag": "반도체·전자·모바일" },
-    { "name": "SK하이닉스", "short": "SK", "tag": "메모리 반도체" },
-    { "name": "LG전자", "short": "LG", "tag": "가전·전장·B2B" },
-    { "name": "현대자동차", "short": "현", "tag": "완성차·모빌리티" },
-    { "name": "한화에어로스페이스", "short": "한", "tag": "항공·방산" },
-    { "name": "기아", "short": "기", "tag": "완성차" },
-    { "name": "포스코홀딩스", "short": "PO", "tag": "철강·2차전지 소재" },
-    { "name": "두산에너빌리티", "short": "두", "tag": "발전·원전·플랜트" },
-    { "name": "HD현대중공업", "short": "HD", "tag": "조선·해양" },
-    { "name": "LG디스플레이", "short": "LD", "tag": "OLED 디스플레이" },
-    { "name": "LG에너지솔루션", "short": "LE", "tag": "2차전지" },
-    { "name": "삼성SDI", "short": "SD", "tag": "2차전지·전자재료" },
-    { "name": "삼성디스플레이", "short": "S+", "tag": "OLED 디스플레이" },
-    { "name": "GS칼텍스", "short": "GS", "tag": "정유·화학" },
-    { "name": "SK이노베이션", "short": "SI", "tag": "정유·배터리" },
-    { "name": "롯데케미칼", "short": "롯", "tag": "석유화학" },
-    { "name": "LG화학", "short": "LC", "tag": "화학·소재" },
-    { "name": "현대모비스", "short": "모", "tag": "자동차 부품" },
-    { "name": "한국조선해양", "short": "조", "tag": "조선 지주" },
-    { "name": "대한항공", "short": "KA", "tag": "항공 운송" }
+    {
+      "name": "삼성전자",
+      "short": "삼",
+      "tag": "반도체·전자·모바일"
+    },
+    {
+      "name": "SK하이닉스",
+      "short": "SK",
+      "tag": "메모리 반도체"
+    },
+    {
+      "name": "LG전자",
+      "short": "LG",
+      "tag": "가전·전장·B2B"
+    },
+    {
+      "name": "현대자동차",
+      "short": "현",
+      "tag": "완성차·모빌리티"
+    },
+    {
+      "name": "한화에어로스페이스",
+      "short": "한",
+      "tag": "항공·방산"
+    },
+    {
+      "name": "기아",
+      "short": "기",
+      "tag": "완성차"
+    },
+    {
+      "name": "포스코홀딩스",
+      "short": "PO",
+      "tag": "철강·2차전지 소재"
+    },
+    {
+      "name": "두산에너빌리티",
+      "short": "두",
+      "tag": "발전·원전·플랜트"
+    },
+    {
+      "name": "HD현대중공업",
+      "short": "HD",
+      "tag": "조선·해양"
+    },
+    {
+      "name": "LG디스플레이",
+      "short": "LD",
+      "tag": "OLED 디스플레이"
+    },
+    {
+      "name": "LG에너지솔루션",
+      "short": "LE",
+      "tag": "2차전지"
+    },
+    {
+      "name": "삼성SDI",
+      "short": "SD",
+      "tag": "2차전지·전자재료"
+    },
+    {
+      "name": "삼성디스플레이",
+      "short": "S+",
+      "tag": "OLED 디스플레이"
+    },
+    {
+      "name": "GS칼텍스",
+      "short": "GS",
+      "tag": "정유·화학"
+    },
+    {
+      "name": "SK이노베이션",
+      "short": "SI",
+      "tag": "정유·배터리"
+    },
+    {
+      "name": "롯데케미칼",
+      "short": "롯",
+      "tag": "석유화학"
+    },
+    {
+      "name": "LG화학",
+      "short": "LC",
+      "tag": "화학·소재"
+    },
+    {
+      "name": "현대모비스",
+      "short": "모",
+      "tag": "자동차 부품"
+    },
+    {
+      "name": "한국조선해양",
+      "short": "조",
+      "tag": "조선 지주"
+    },
+    {
+      "name": "대한항공",
+      "short": "KA",
+      "tag": "항공 운송"
+    }
   ],
   "KO_MID": [
-    { "name": "동진쎄미켐", "short": "동", "tag": "포토레지스트·반도체 소재" },
-    { "name": "원익IPS", "short": "원", "tag": "반도체 장비 (증착)" },
-    { "name": "리노공업", "short": "리", "tag": "반도체 검사 소켓" },
-    { "name": "티씨케이", "short": "TC", "tag": "SiC 링·반도체 부품" },
-    { "name": "이오테크닉스", "short": "이", "tag": "레이저 마킹·장비" },
-    { "name": "하나마이크론", "short": "하", "tag": "반도체 후공정" },
-    { "name": "유진테크", "short": "유", "tag": "반도체 증착 장비" },
-    { "name": "솔브레인", "short": "솔", "tag": "공정 케미컬" },
-    { "name": "넥스틴", "short": "넥", "tag": "반도체 검사 장비" },
-    { "name": "파크시스템스", "short": "파", "tag": "원자현미경(AFM)" }
+    {
+      "name": "동진쎄미켐",
+      "short": "동",
+      "tag": "포토레지스트·반도체 소재"
+    },
+    {
+      "name": "원익IPS",
+      "short": "원",
+      "tag": "반도체 장비 (증착)"
+    },
+    {
+      "name": "리노공업",
+      "short": "리",
+      "tag": "반도체 검사 소켓"
+    },
+    {
+      "name": "티씨케이",
+      "short": "TC",
+      "tag": "SiC 링·반도체 부품"
+    },
+    {
+      "name": "이오테크닉스",
+      "short": "이",
+      "tag": "레이저 마킹·장비"
+    },
+    {
+      "name": "하나마이크론",
+      "short": "하",
+      "tag": "반도체 후공정"
+    },
+    {
+      "name": "유진테크",
+      "short": "유",
+      "tag": "반도체 증착 장비"
+    },
+    {
+      "name": "솔브레인",
+      "short": "솔",
+      "tag": "공정 케미컬"
+    },
+    {
+      "name": "넥스틴",
+      "short": "넥",
+      "tag": "반도체 검사 장비"
+    },
+    {
+      "name": "파크시스템스",
+      "short": "파",
+      "tag": "원자현미경(AFM)"
+    }
   ],
   "KO_PUB": [
-    { "name": "한국전력공사", "short": "KEP", "tag": "전력 송배전" },
-    { "name": "한국수력원자력", "short": "한", "tag": "수력·원자력 발전" },
-    { "name": "한국철도공사", "short": "KO", "tag": "철도 운영 (KORAIL)" },
-    { "name": "한국가스공사", "short": "가", "tag": "천연가스 도입·공급" },
-    { "name": "한국도로공사", "short": "도", "tag": "고속도로 건설·운영" },
-    { "name": "한국공항공사", "short": "공", "tag": "지방공항 운영" },
-    { "name": "한국토지주택공사", "short": "LH", "tag": "주택·도시 개발" },
-    { "name": "한국석유공사", "short": "석", "tag": "원유 비축·자원" },
-    { "name": "한국조폐공사", "short": "조", "tag": "화폐·보안 인쇄" },
-    { "name": "국민연금공단", "short": "연", "tag": "국민연금 운용" }
+    {
+      "name": "한국전력공사",
+      "short": "KEP",
+      "tag": "전력 송배전"
+    },
+    {
+      "name": "한국수력원자력",
+      "short": "한",
+      "tag": "수력·원자력 발전"
+    },
+    {
+      "name": "한국철도공사",
+      "short": "KO",
+      "tag": "철도 운영 (KORAIL)"
+    },
+    {
+      "name": "한국가스공사",
+      "short": "가",
+      "tag": "천연가스 도입·공급"
+    },
+    {
+      "name": "한국도로공사",
+      "short": "도",
+      "tag": "고속도로 건설·운영"
+    },
+    {
+      "name": "한국공항공사",
+      "short": "공",
+      "tag": "지방공항 운영"
+    },
+    {
+      "name": "한국토지주택공사",
+      "short": "LH",
+      "tag": "주택·도시 개발"
+    },
+    {
+      "name": "한국석유공사",
+      "short": "석",
+      "tag": "원유 비축·자원"
+    },
+    {
+      "name": "한국조폐공사",
+      "short": "조",
+      "tag": "화폐·보안 인쇄"
+    },
+    {
+      "name": "국민연금공단",
+      "short": "연",
+      "tag": "국민연금 운용"
+    }
   ],
   "GLOBAL_INDUSTRIES": [
     {
       "group": "반도체 (Semiconductor)",
       "items": [
-        { "name": "TSMC", "short": "TS", "tag": "세계 1위 파운드리" },
-        { "name": "ASML", "short": "AS", "tag": "EUV 노광장비" },
-        { "name": "NVIDIA", "short": "NV", "tag": "GPU·AI 가속기" },
-        { "name": "AMD", "short": "AM", "tag": "CPU·GPU·데이터센터" },
-        { "name": "Intel", "short": "IN", "tag": "CPU·파운드리" },
-        { "name": "Qualcomm", "short": "QC", "tag": "모바일 AP·통신" },
-        { "name": "Broadcom", "short": "BR", "tag": "네트워크 반도체" },
-        { "name": "Micron", "short": "MC", "tag": "메모리 반도체" },
-        { "name": "KLA", "short": "KL", "tag": "반도체 계측·검사" },
-        { "name": "Applied Materials", "short": "AM", "tag": "반도체 장비" },
-        { "name": "Lam Research", "short": "LR", "tag": "식각·증착 장비" }
+        {
+          "name": "TSMC",
+          "short": "TS",
+          "tag": "세계 1위 파운드리"
+        },
+        {
+          "name": "ASML",
+          "short": "AS",
+          "tag": "EUV 노광장비"
+        },
+        {
+          "name": "NVIDIA",
+          "short": "NV",
+          "tag": "GPU·AI 가속기"
+        },
+        {
+          "name": "AMD",
+          "short": "AM",
+          "tag": "CPU·GPU·데이터센터"
+        },
+        {
+          "name": "Intel",
+          "short": "IN",
+          "tag": "CPU·파운드리"
+        },
+        {
+          "name": "Qualcomm",
+          "short": "QC",
+          "tag": "모바일 AP·통신"
+        },
+        {
+          "name": "Broadcom",
+          "short": "BR",
+          "tag": "네트워크 반도체"
+        },
+        {
+          "name": "Micron",
+          "short": "MC",
+          "tag": "메모리 반도체"
+        },
+        {
+          "name": "KLA",
+          "short": "KL",
+          "tag": "반도체 계측·검사"
+        },
+        {
+          "name": "Applied Materials",
+          "short": "AM",
+          "tag": "반도체 장비"
+        },
+        {
+          "name": "Lam Research",
+          "short": "LR",
+          "tag": "식각·증착 장비"
+        }
       ]
     },
     {
       "group": "IT · 소프트웨어",
       "items": [
-        { "name": "Microsoft", "short": "MS", "tag": "클라우드·SW·AI" },
-        { "name": "Google", "short": "GG", "tag": "검색·클라우드·AI" },
-        { "name": "Apple", "short": "AP", "tag": "디바이스·서비스" },
-        { "name": "Meta", "short": "ME", "tag": "SNS·VR" },
-        { "name": "Amazon", "short": "AZ", "tag": "이커머스·AWS" },
-        { "name": "Netflix", "short": "NF", "tag": "스트리밍" }
+        {
+          "name": "Microsoft",
+          "short": "MS",
+          "tag": "클라우드·SW·AI"
+        },
+        {
+          "name": "Google",
+          "short": "GG",
+          "tag": "검색·클라우드·AI"
+        },
+        {
+          "name": "Apple",
+          "short": "AP",
+          "tag": "디바이스·서비스"
+        },
+        {
+          "name": "Meta",
+          "short": "ME",
+          "tag": "SNS·VR"
+        },
+        {
+          "name": "Amazon",
+          "short": "AZ",
+          "tag": "이커머스·AWS"
+        },
+        {
+          "name": "Netflix",
+          "short": "NF",
+          "tag": "스트리밍"
+        }
       ]
     },
     {
       "group": "모빌리티 · 자동차",
       "items": [
-        { "name": "Tesla", "short": "TS", "tag": "EV·자율주행·에너지" },
-        { "name": "BYD", "short": "BY", "tag": "EV·배터리" },
-        { "name": "Toyota", "short": "TY", "tag": "완성차·하이브리드" },
-        { "name": "Ford", "short": "FD", "tag": "완성차·EV 전환" },
-        { "name": "General Motors", "short": "GM", "tag": "완성차·자율주행" }
+        {
+          "name": "Tesla",
+          "short": "TS",
+          "tag": "EV·자율주행·에너지"
+        },
+        {
+          "name": "BYD",
+          "short": "BY",
+          "tag": "EV·배터리"
+        },
+        {
+          "name": "Toyota",
+          "short": "TY",
+          "tag": "완성차·하이브리드"
+        },
+        {
+          "name": "Ford",
+          "short": "FD",
+          "tag": "완성차·EV 전환"
+        },
+        {
+          "name": "General Motors",
+          "short": "GM",
+          "tag": "완성차·자율주행"
+        }
       ]
     },
     {
       "group": "산업·중공업",
       "items": [
-        { "name": "Boeing", "short": "BO", "tag": "항공기·방산" },
-        { "name": "GE Aerospace", "short": "GE", "tag": "항공엔진·에너지" },
-        { "name": "Siemens", "short": "SI", "tag": "산업 자동화" }
+        {
+          "name": "Boeing",
+          "short": "BO",
+          "tag": "항공기·방산"
+        },
+        {
+          "name": "GE Aerospace",
+          "short": "GE",
+          "tag": "항공엔진·에너지"
+        },
+        {
+          "name": "Siemens",
+          "short": "SI",
+          "tag": "산업 자동화"
+        }
       ]
     },
     {
       "group": "AI · 클라우드",
       "items": [
-        { "name": "OpenAI", "short": "OA", "tag": "생성형 AI" },
-        { "name": "Anthropic", "short": "AN", "tag": "AI 안전·Claude" },
-        { "name": "Databricks", "short": "DB", "tag": "데이터·AI 플랫폼" }
+        {
+          "name": "OpenAI",
+          "short": "OA",
+          "tag": "생성형 AI"
+        },
+        {
+          "name": "Anthropic",
+          "short": "AN",
+          "tag": "AI 안전·Claude"
+        },
+        {
+          "name": "Databricks",
+          "short": "DB",
+          "tag": "데이터·AI 플랫폼"
+        }
       ]
     },
     {
       "group": "기타",
       "items": [
-        { "name": "ByteDance", "short": "BD", "tag": "TikTok·컨텐츠" },
-        { "name": "Shell", "short": "SH", "tag": "에너지·화학" }
+        {
+          "name": "ByteDance",
+          "short": "BD",
+          "tag": "TikTok·컨텐츠"
+        },
+        {
+          "name": "Shell",
+          "short": "SH",
+          "tag": "에너지·화학"
+        }
       ]
     }
   ],
@@ -118,13 +398,36 @@
       "category": "국내 대기업",
       "industry": "메모리 반도체 · 코스피 상장 · 본사 이천",
       "logoShort": "SK",
-      "logoGrad": ["#e60028", "#ff4d5b"],
+      "logoGrad": [
+        "#e60028",
+        "#ff4d5b"
+      ],
       "source": "SK하이닉스 공식 채용 홈페이지 (기준일: 2026.09.15)",
       "jobs": [
-        { "key": "process", "title": "공정/소부장", "cat": "생산/기술", "desc": "8대 공정 및 수율 개선·장비 트러블슈팅" },
-        { "key": "design", "title": "회로 설계", "cat": "연구개발", "desc": "DRAM·HBM 회로 설계 및 검증" },
-        { "key": "sw", "title": "SW/시스템", "cat": "연구개발", "desc": "Firmware·Controller SW·SSD" },
-        { "key": "plan", "title": "경영기획", "cat": "경영지원", "desc": "사업전략·재무·투자" }
+        {
+          "key": "process",
+          "title": "공정/소부장",
+          "cat": "생산/기술",
+          "desc": "8대 공정 및 수율 개선·장비 트러블슈팅"
+        },
+        {
+          "key": "design",
+          "title": "회로 설계",
+          "cat": "연구개발",
+          "desc": "DRAM·HBM 회로 설계 및 검증"
+        },
+        {
+          "key": "sw",
+          "title": "SW/시스템",
+          "cat": "연구개발",
+          "desc": "Firmware·Controller SW·SSD"
+        },
+        {
+          "key": "plan",
+          "title": "경영기획",
+          "cat": "경영지원",
+          "desc": "사업전략·재무·투자"
+        }
       ]
     },
     "한국전력공사": {
@@ -132,13 +435,36 @@
       "category": "공기업",
       "industry": "전력 송배전 · 시장형 공기업 · 본사 나주",
       "logoShort": "KEP",
-      "logoGrad": ["#0369a1", "#0ea5e9"],
+      "logoGrad": [
+        "#0369a1",
+        "#0ea5e9"
+      ],
       "source": "한국전력공사 채용 공고 (기준일: 2026.09.15)",
       "jobs": [
-        { "key": "elec", "title": "전기", "cat": "기술직", "desc": "송·변·배전 설비 운영 및 계획" },
-        { "key": "ict", "title": "ICT", "cat": "기술직", "desc": "전력망 IT·스마트 그리드" },
-        { "key": "civil", "title": "토목", "cat": "기술직", "desc": "전력 인프라 시공·유지" },
-        { "key": "office", "title": "사무", "cat": "사무직", "desc": "경영기획·인사·재무" }
+        {
+          "key": "elec",
+          "title": "전기",
+          "cat": "기술직",
+          "desc": "송·변·배전 설비 운영 및 계획"
+        },
+        {
+          "key": "ict",
+          "title": "ICT",
+          "cat": "기술직",
+          "desc": "전력망 IT·스마트 그리드"
+        },
+        {
+          "key": "civil",
+          "title": "토목",
+          "cat": "기술직",
+          "desc": "전력 인프라 시공·유지"
+        },
+        {
+          "key": "office",
+          "title": "사무",
+          "cat": "사무직",
+          "desc": "경영기획·인사·재무"
+        }
       ]
     },
     "ASML": {
@@ -146,13 +472,36 @@
       "category": "해외 · 글로벌",
       "industry": "EUV/DUV 노광장비 · Global HQ Veldhoven · 한국법인 화성",
       "logoShort": "AS",
-      "logoGrad": ["#0033a0", "#3b82f6"],
+      "logoGrad": [
+        "#0033a0",
+        "#3b82f6"
+      ],
       "source": "ASML Careers Korea (기준일: 2026.09.15)",
       "jobs": [
-        { "key": "cse", "title": "Customer Support Engineer (CSE)", "cat": "Field Engineering", "desc": "고객사 팹 상주 장비 유지보수·트러블슈팅" },
-        { "key": "process", "title": "Process Engineer", "cat": "Applications", "desc": "광학·공정 최적화 및 고객 기술지원" },
-        { "key": "sw", "title": "SW Engineer", "cat": "R&D", "desc": "장비 제어 SW·이미지 프로세싱" },
-        { "key": "sc", "title": "Supply Chain", "cat": "Operations", "desc": "글로벌 SCM·물류" }
+        {
+          "key": "cse",
+          "title": "Customer Support Engineer (CSE)",
+          "cat": "Field Engineering",
+          "desc": "고객사 팹 상주 장비 유지보수·트러블슈팅"
+        },
+        {
+          "key": "process",
+          "title": "Process Engineer",
+          "cat": "Applications",
+          "desc": "광학·공정 최적화 및 고객 기술지원"
+        },
+        {
+          "key": "sw",
+          "title": "SW Engineer",
+          "cat": "R&D",
+          "desc": "장비 제어 SW·이미지 프로세싱"
+        },
+        {
+          "key": "sc",
+          "title": "Supply Chain",
+          "cat": "Operations",
+          "desc": "글로벌 SCM·물류"
+        }
       ]
     }
   },
@@ -161,36 +510,82 @@
       "company": "SK하이닉스",
       "job": "공정/소부장",
       "category": "국내 대기업",
-      "source": "SK하이닉스 공식 채용 홈페이지 (기준일: 2026.09.15)",
-      "dday": { "label": "D-14", "type": "urgent", "note": "서류 마감까지" },
+      "source": "SK하이닉스 공식 채용 페이지 (기준일: 2026.09.21) — 정기 업데이트",
+      "dday": {
+        "label": "D-14",
+        "type": "urgent",
+        "note": "서류 마감까지"
+      },
       "documents": {
-        "education": { "type": "필수", "detail": "학사 이상 (전자/전기, 신소재, 화공, 물리 관련 전공)" },
-        "cutoff": { "type": "필수", "detail": "OPIc IM2 또는 토익스피킹 130점 이상 (2년 이내 취득)" },
+        "education": {
+          "type": "필수",
+          "detail": "학사 이상 (전자/전기, 신소재, 화공, 물리 관련 전공)"
+        },
+        "cutoff": {
+          "type": "필수",
+          "detail": "OPIc IM2 또는 토익스피킹 130점 이상 (2년 이내 취득)"
+        },
         "certificate": [
-          { "name": "반도체 관련 교육 이수", "type": "우대", "detail": "K-반도체 아카데미, KAIST 반도체 과정 등 이수자 우대" }
+          {
+            "name": "반도체 관련 교육 이수",
+            "type": "우대",
+            "detail": "K-반도체 아카데미, KAIST 반도체 과정 등 이수자 우대"
+          }
         ]
       },
       "techStack": {
         "summary": "반도체 8대 공정 (증착·식각·확산·이온주입·CMP·포토·세정·계측) 지식과 통계 툴 활용 역량이 핵심.",
         "tools": [
-          { "name": "Minitab", "category": "통계 · SPC", "level": "권장" },
-          { "name": "JMP", "category": "데이터 분석", "level": "권장" },
-          { "name": "Python (Pandas)", "category": "데이터 분석", "level": "AI분석 우대" },
-          { "name": "SAS", "category": "통계", "level": "참고" }
+          {
+            "name": "Minitab",
+            "category": "통계 · SPC",
+            "level": "권장"
+          },
+          {
+            "name": "JMP",
+            "category": "데이터 분석",
+            "level": "권장"
+          },
+          {
+            "name": "Python (Pandas)",
+            "category": "데이터 분석",
+            "level": "AI분석 우대"
+          },
+          {
+            "name": "SAS",
+            "category": "통계",
+            "level": "참고"
+          }
         ]
       },
       "competency": [
-        { "name": "문제해결", "type": "AI분석", "detail": "수율 개선 및 장비 트러블슈팅 프로젝트 경험이 강력한 어필 포인트" },
-        { "name": "협업 · 커뮤니케이션", "type": "필수", "detail": "교대 근무 환경에서의 인수인계 및 유관부서 협업 능력" }
+        {
+          "name": "문제해결",
+          "type": "AI분석",
+          "detail": "수율 개선 및 장비 트러블슈팅 프로젝트 경험이 강력한 어필 포인트"
+        },
+        {
+          "name": "협업 · 커뮤니케이션",
+          "type": "필수",
+          "detail": "교대 근무 환경에서의 인수인계 및 유관부서 협업 능력"
+        }
       ],
       "insight": {
         "news": [
+          "2026.09.21 채용 공고 및 직무 요구역량 상시 모니터링 중",
           "HBM3E 12단 양산 및 엔비디아 향 공급 확대",
-          "청주 M15X 신규 팹 착공 · 2027년 가동 목표",
-          "어드밴스드 패키징 (TSV·본딩) 투자 지속 확대"
+          "청주 M15X 신규 팹 착공 · 2027년 가동 목표"
         ],
-        "products": ["HBM (HBM3E, HBM4)", "DDR5", "eSSD", "LPDDR5X"],
-        "competitors": ["삼성전자 (메모리)", "Micron (미국)"]
+        "products": [
+          "HBM (HBM3E, HBM4)",
+          "DDR5",
+          "eSSD",
+          "LPDDR5X"
+        ],
+        "competitors": [
+          "삼성전자 (메모리)",
+          "Micron (미국)"
+        ]
       },
       "workCondition": {
         "location": "이천 본사, 청주 캠퍼스",
@@ -200,52 +595,135 @@
         "etc": "경영성과급(PS)·생산성격려금(PI)·복지포인트"
       },
       "timeline": [
-        { "title": "채용 공고 오픈", "desc": "2026.09.01", "state": "done" },
-        { "title": "서류 접수 마감", "desc": "2026.09.29 (D-14)", "state": "next" },
-        { "title": "SKCT (인적성)", "desc": "2026.10월 2주차 예정", "state": "upcoming" },
-        { "title": "직무·인성 면접", "desc": "2026.10월 4주차 예정", "state": "upcoming" },
-        { "title": "임원 면접 · 건강검진", "desc": "2026.11월 중", "state": "upcoming" },
-        { "title": "최종 합격 발표", "desc": "2026.11월 말", "state": "upcoming" }
+        {
+          "title": "채용 공고 오픈",
+          "desc": "2026.09.01",
+          "state": "done"
+        },
+        {
+          "title": "서류 접수 마감",
+          "desc": "2026.09.29 (D-14)",
+          "state": "next"
+        },
+        {
+          "title": "SKCT (인적성)",
+          "desc": "2026.10월 2주차 예정",
+          "state": "upcoming"
+        },
+        {
+          "title": "직무·인성 면접",
+          "desc": "2026.10월 4주차 예정",
+          "state": "upcoming"
+        },
+        {
+          "title": "임원 면접 · 건강검진",
+          "desc": "2026.11월 중",
+          "state": "upcoming"
+        },
+        {
+          "title": "최종 합격 발표",
+          "desc": "2026.11월 말",
+          "state": "upcoming"
+        }
       ]
     },
     "한국전력공사__elec": {
       "company": "한국전력공사",
       "job": "전기",
       "category": "공기업",
-      "source": "한국전력공사 채용 공고 (기준일: 2026.09.15)",
-      "dday": { "label": "D-5", "type": "urgent", "note": "서류 마감까지" },
+      "source": "한국전력공사 공식 채용 페이지 (기준일: 2026.09.21) — 정기 업데이트",
+      "dday": {
+        "label": "D-5",
+        "type": "urgent",
+        "note": "서류 마감까지"
+      },
       "documents": {
-        "education": { "type": "필수", "detail": "학사 이상 (전기·전자·에너지 관련 전공)" },
-        "cutoff": { "type": "필수", "detail": "TOEIC 700점 이상 (2년 이내 취득, TEPS/OPIc 등 대체 가능)" },
-        "license": { "type": "필수", "detail": "없음 (단, 전기기사 등 관련 자격 미보유 시 서류 경쟁 매우 치열)" },
+        "education": {
+          "type": "필수",
+          "detail": "학사 이상 (전기·전자·에너지 관련 전공)"
+        },
+        "cutoff": {
+          "type": "필수",
+          "detail": "TOEIC 700점 이상 (2년 이내 취득, TEPS/OPIc 등 대체 가능)"
+        },
+        "license": {
+          "type": "필수",
+          "detail": "없음 (단, 전기기사 등 관련 자격 미보유 시 서류 경쟁 매우 치열)"
+        },
         "certificate": [
-          { "name": "전기기사", "type": "가산점", "detail": "서류 전형 10점 가점 (NCS 필기 전 반영)" },
-          { "name": "전기공사기사", "type": "가산점", "detail": "서류 전형 5점 가점" },
-          { "name": "한국사능력검정 2급 이상", "type": "우대", "detail": "공기업 공통 우대사항" }
+          {
+            "name": "전기기사",
+            "type": "가산점",
+            "detail": "서류 전형 10점 가점 (NCS 필기 전 반영)"
+          },
+          {
+            "name": "전기공사기사",
+            "type": "가산점",
+            "detail": "서류 전형 5점 가점"
+          },
+          {
+            "name": "한국사능력검정 2급 이상",
+            "type": "우대",
+            "detail": "공기업 공통 우대사항"
+          }
         ]
       },
       "techStack": {
         "summary": "학부 전공 필수 4대 과목(전력공학·회로이론·전기기기·제어공학)과 NCS 직무능력이 필기 통과의 핵심.",
         "tools": [
-          { "name": "전력공학", "category": "전공", "level": "필수" },
-          { "name": "회로이론", "category": "전공", "level": "필수" },
-          { "name": "전기기기", "category": "전공", "level": "필수" },
-          { "name": "제어공학", "category": "전공", "level": "우대" },
-          { "name": "PSCAD/PSSE", "category": "해석 툴", "level": "참고" }
+          {
+            "name": "전력공학",
+            "category": "전공",
+            "level": "필수"
+          },
+          {
+            "name": "회로이론",
+            "category": "전공",
+            "level": "필수"
+          },
+          {
+            "name": "전기기기",
+            "category": "전공",
+            "level": "필수"
+          },
+          {
+            "name": "제어공학",
+            "category": "전공",
+            "level": "우대"
+          },
+          {
+            "name": "PSCAD/PSSE",
+            "category": "해석 툴",
+            "level": "참고"
+          }
         ]
       },
       "competency": [
-        { "name": "NCS 직무능력", "type": "필수", "detail": "의사소통·수리·문제해결·자원관리·기술능력 5개 영역 종합" },
-        { "name": "현장 적응력", "type": "AI분석", "detail": "전국 순환근무 특성상, 지역 이동에 대한 태도가 면접 단골 질문" }
+        {
+          "name": "NCS 직무능력",
+          "type": "필수",
+          "detail": "의사소통·수리·문제해결·자원관리·기술능력 5개 영역 종합"
+        },
+        {
+          "name": "현장 적응력",
+          "type": "AI분석",
+          "detail": "전국 순환근무 특성상, 지역 이동에 대한 태도가 면접 단골 질문"
+        }
       ],
       "insight": {
         "news": [
+          "2026.09.21 채용 공고 및 직무 요구역량 상시 모니터링 중",
           "제11차 전력수급기본계획 확정 · 송전망 확충 집중 투자",
-          "요금 정상화 및 재무구조 개선 로드맵 추진",
-          "HVDC(초고압직류송전) 확대 및 동해안-수도권 송전 프로젝트"
+          "요금 정상화 및 재무구조 개선 로드맵 추진"
         ],
-        "products": ["전력 송·배전 서비스", "스마트 그리드", "전기차 충전 인프라"],
-        "competitors": ["해당 없음 (국내 송·배전 독점)"]
+        "products": [
+          "전력 송·배전 서비스",
+          "스마트 그리드",
+          "전기차 충전 인프라"
+        ],
+        "competitors": [
+          "해당 없음 (국내 송·배전 독점)"
+        ]
       },
       "workCondition": {
         "location": "나주 본사 및 전국 15개 지역본부·사업소",
@@ -255,50 +733,126 @@
         "etc": "경영평가 성과급 · 자녀 학자금 · 정년 보장"
       },
       "timeline": [
-        { "title": "채용 공고 오픈", "desc": "2026.09.05", "state": "done" },
-        { "title": "서류 접수 마감", "desc": "2026.09.20 (D-5)", "state": "next" },
-        { "title": "NCS 직무능력평가", "desc": "2026.11월 1주차 예정", "state": "upcoming" },
-        { "title": "직무 면접 (PT + 실무)", "desc": "2026.11월 3주차 예정", "state": "upcoming" },
-        { "title": "종합 면접 (인성)", "desc": "2026.12월 초", "state": "upcoming" },
-        { "title": "최종 합격 발표", "desc": "2026.12월 중순", "state": "upcoming" }
+        {
+          "title": "채용 공고 오픈",
+          "desc": "2026.09.05",
+          "state": "done"
+        },
+        {
+          "title": "서류 접수 마감",
+          "desc": "2026.09.20 (D-5)",
+          "state": "next"
+        },
+        {
+          "title": "NCS 직무능력평가",
+          "desc": "2026.11월 1주차 예정",
+          "state": "upcoming"
+        },
+        {
+          "title": "직무 면접 (PT + 실무)",
+          "desc": "2026.11월 3주차 예정",
+          "state": "upcoming"
+        },
+        {
+          "title": "종합 면접 (인성)",
+          "desc": "2026.12월 초",
+          "state": "upcoming"
+        },
+        {
+          "title": "최종 합격 발표",
+          "desc": "2026.12월 중순",
+          "state": "upcoming"
+        }
       ]
     },
     "ASML__cse": {
       "company": "ASML",
       "job": "Customer Support Engineer (CSE)",
       "category": "해외 · 글로벌",
-      "source": "ASML Careers Korea (기준일: 2026.09.15)",
-      "dday": { "label": "상시 채용", "type": "ongoing", "note": "수시 접수" },
+      "source": "ASML 공식 채용 페이지 (기준일: 2026.09.21) — 정기 업데이트",
+      "dday": {
+        "label": "상시 채용",
+        "type": "ongoing",
+        "note": "수시 접수"
+      },
       "documents": {
-        "education": { "type": "필수", "detail": "학사 이상 (기계·전자·전기·물리·화공 등 이공계 전공)" },
-        "cutoff": { "type": "필수", "detail": "비즈니스 영어 회화 능통자 (Fluent) · 별도 공인 점수 컷은 없으나 인터뷰 영어 진행" },
-        "license": { "type": "우대", "detail": "없음" },
+        "education": {
+          "type": "필수",
+          "detail": "학사 이상 (기계·전자·전기·물리·화공 등 이공계 전공)"
+        },
+        "cutoff": {
+          "type": "필수",
+          "detail": "비즈니스 영어 회화 능통자 (Fluent) · 별도 공인 점수 컷은 없으나 인터뷰 영어 진행"
+        },
+        "license": {
+          "type": "우대",
+          "detail": "없음"
+        },
         "certificate": [
-          { "name": "해외 인턴·교환학생 경험", "type": "우대", "detail": "영어 사용 환경 실증 자료" },
-          { "name": "PMP·6-Sigma", "type": "참고", "detail": "일부 시니어 포지션 참고 사항" }
+          {
+            "name": "해외 인턴·교환학생 경험",
+            "type": "우대",
+            "detail": "영어 사용 환경 실증 자료"
+          },
+          {
+            "name": "PMP·6-Sigma",
+            "type": "참고",
+            "detail": "일부 시니어 포지션 참고 사항"
+          }
         ]
       },
       "techStack": {
         "summary": "기계·전자 기초에 더해, 진공·광학·정밀 이송 시스템에 대한 이해가 실무 진입에 필수.",
         "tools": [
-          { "name": "광학·진공 시스템 이해", "category": "도메인", "level": "필수" },
-          { "name": "정밀 기계 · 반도체 장비", "category": "도메인", "level": "필수" },
-          { "name": "Windows/Linux 진단 툴", "category": "실무 도구", "level": "우대" },
-          { "name": "ServiceNow · SAP", "category": "업무 시스템", "level": "참고" }
+          {
+            "name": "광학·진공 시스템 이해",
+            "category": "도메인",
+            "level": "필수"
+          },
+          {
+            "name": "정밀 기계 · 반도체 장비",
+            "category": "도메인",
+            "level": "필수"
+          },
+          {
+            "name": "Windows/Linux 진단 툴",
+            "category": "실무 도구",
+            "level": "우대"
+          },
+          {
+            "name": "ServiceNow · SAP",
+            "category": "업무 시스템",
+            "level": "참고"
+          }
         ]
       },
       "competency": [
-        { "name": "커뮤니케이션", "type": "필수", "detail": "글로벌 엔지니어(NL/US) 및 고객사(삼성·SK) 대응을 위한 영어 소통 필수" },
-        { "name": "문제해결 · Ownership", "type": "AI분석", "detail": "라인 스톱 상황에서 우선순위 판단 및 근본 원인 분석(RCA) 경험" }
+        {
+          "name": "커뮤니케이션",
+          "type": "필수",
+          "detail": "글로벌 엔지니어(NL/US) 및 고객사(삼성·SK) 대응을 위한 영어 소통 필수"
+        },
+        {
+          "name": "문제해결 · Ownership",
+          "type": "AI분석",
+          "detail": "라인 스톱 상황에서 우선순위 판단 및 근본 원인 분석(RCA) 경험"
+        }
       ],
       "insight": {
         "news": [
+          "2026.09.21 채용 공고 및 직무 요구역량 상시 모니터링 중",
           "High-NA EUV 장비 인텔 첫 공급 및 신규 고객사 확대",
-          "한국 화성 뉴 캠퍼스(R&D + 트레이닝 센터) 완공 예정",
-          "2nm 이하 노드 대응 위한 EUV 장비 수요 지속 증가"
+          "한국 화성 뉴 캠퍼스(R&D + 트레이닝 센터) 완공 예정"
         ],
-        "products": ["EUV 노광장비 (NXE·EXE 시리즈)", "DUV 노광장비", "트레이닝·서비스"],
-        "competitors": ["Nikon·Canon (제한적 경쟁)", "KLA · Applied Materials (인접 계측/장비)"]
+        "products": [
+          "EUV 노광장비 (NXE·EXE 시리즈)",
+          "DUV 노광장비",
+          "트레이닝·서비스"
+        ],
+        "competitors": [
+          "Nikon·Canon (제한적 경쟁)",
+          "KLA · Applied Materials (인접 계측/장비)"
+        ]
       },
       "workCondition": {
         "location": "화성 · 평택 · 이천 · 청주 (고객사 팹 상주)",
@@ -308,12 +862,36 @@
         "etc": "유연근무제 · 자사주 매입 지원 · 글로벌 트레이닝(NL 파견)"
       },
       "timeline": [
-        { "title": "상시 지원 접수", "desc": "연중 상시 · Career 사이트 기준", "state": "done" },
-        { "title": "1차 영어 면접 (Recruiter)", "desc": "접수 후 2주 이내", "state": "next" },
-        { "title": "2차 기술 면접 (Hiring Manager)", "desc": "통과 시 1~2주 이내", "state": "upcoming" },
-        { "title": "3차 온사이트 면접 + 실무진", "desc": "화성 오피스 대면 진행", "state": "upcoming" },
-        { "title": "Offer & 백그라운드 체크", "desc": "통상 4~6주 소요", "state": "upcoming" },
-        { "title": "NL(본사) 트레이닝 파견", "desc": "입사 후 3~6개월", "state": "upcoming" }
+        {
+          "title": "상시 지원 접수",
+          "desc": "연중 상시 · Career 사이트 기준",
+          "state": "done"
+        },
+        {
+          "title": "1차 영어 면접 (Recruiter)",
+          "desc": "접수 후 2주 이내",
+          "state": "next"
+        },
+        {
+          "title": "2차 기술 면접 (Hiring Manager)",
+          "desc": "통과 시 1~2주 이내",
+          "state": "upcoming"
+        },
+        {
+          "title": "3차 온사이트 면접 + 실무진",
+          "desc": "화성 오피스 대면 진행",
+          "state": "upcoming"
+        },
+        {
+          "title": "Offer & 백그라운드 체크",
+          "desc": "통상 4~6주 소요",
+          "state": "upcoming"
+        },
+        {
+          "title": "NL(본사) 트레이닝 파견",
+          "desc": "입사 후 3~6개월",
+          "state": "upcoming"
+        }
       ]
     }
   }
